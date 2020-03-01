@@ -134,19 +134,15 @@ public class AugmentedImageActivity extends AppCompatActivity {
           fitToScanView.setVisibility(View.GONE);
           if(node == null){
               if (!augmentedImageMap.containsKey(augmentedImage)) {
-
+                  SnackbarHelper.getInstance().hide(this);
                   if (augmentedImage.getName().equals("up.jpg")) {
                       node = new AugmentedImageNode(this, R.raw.up);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
-                      text = "Detected Image " + augmentedImage.getName();
-                      SnackbarHelper.getInstance().showMessage(this, text);
                   }else if (augmentedImage.getName().equals("down.jpg")) {
                       node = new AugmentedImageNode(this, R.raw.frame_lower_right);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
-                      text = "Detected Image " + augmentedImage.getName();
-                      SnackbarHelper.getInstance().showMessage(this, text);
                   }
 
               }
