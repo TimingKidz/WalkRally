@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "599592910288",
+    "firebase_url": "https://walkrally-f3cb3.firebaseio.com",
+    "project_id": "walkrally-f3cb3",
+    "storage_bucket": "walkrally-f3cb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599592910288:android:a47ae236efeca5f9d10dd5",
+        "android_client_info": {
+          "package_name": "com.example.walkrally"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599592910288-tkqhhuhm7p8ktbla7ivqot9vteees655.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeL7P2-y1--tdXm4x_0kCpkqY6OoIczDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599592910288-tkqhhuhm7p8ktbla7ivqot9vteees655.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

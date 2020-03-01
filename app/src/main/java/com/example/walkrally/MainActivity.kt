@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.item_qr -> {
-//                startActivity(Intent(this@MainActivity, TransactionAdd::class.java)) // Switch to TransactionAdd.kt page
+                startActivity(Intent(this@MainActivity, AugmentedImageActivity::class.java)) // Switch to TransactionAdd.kt page
 //                overridePendingTransition(R.anim.bottom_up, R.anim.nothing) // Setting Transition
                 return@OnNavigationItemSelectedListener false
             }
