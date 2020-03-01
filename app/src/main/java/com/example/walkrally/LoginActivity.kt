@@ -1,5 +1,6 @@
 package com.example.walkrally
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -10,7 +11,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login_acticity.*
 
-class LoginActicity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class LoginActicity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("SignUpSuccess", "createUserWithEmail:success")
-                    setContentView(R.layout.activity_main)
+                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                     val user = auth.currentUser
                     //updateUI(user)
                 } else {
@@ -74,7 +75,7 @@ class LoginActicity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("SignInSuccess", "signInWithEmail:success")
-                    setContentView(R.layout.activity_main)
+                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                     val user = auth.currentUser
                     //updateUI(user)
                 } else {
