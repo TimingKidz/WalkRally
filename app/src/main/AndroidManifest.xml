@@ -44,7 +44,6 @@
         <activity android:name=".LoginActivity">
 
         </activity>
-        <activity android:name=".Scanner" />
         <activity android:name=".AugmentedImageActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
