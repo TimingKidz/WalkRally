@@ -17,7 +17,10 @@
 package com.example.walkrally;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.sceneform.AnchorNode;
@@ -46,13 +49,11 @@ public class AugmentedImageNode extends AnchorNode {
 
   public AugmentedImageNode(Context context, int modelId) {
     // Upon construction, start loading the models for the corners of the frame.
-
-    if (model3d == null) {
       model3d = ModelRenderable.builder()
               .setRegistryId("my_model")
               .setSource(context,modelId)
               .build();
-    }
+
   }
 
   /**
@@ -61,6 +62,7 @@ public class AugmentedImageNode extends AnchorNode {
    * extents of the image. There is no need to worry about world coordinates since everything is
    * relative to the center of the image, which is the parent node of the corners.
    */
+  @RequiresApi(api = Build.VERSION_CODES.N)
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
   public void setImage(AugmentedImage image) {
     this.image = image;
@@ -95,4 +97,6 @@ public class AugmentedImageNode extends AnchorNode {
   public AugmentedImage getImage() {
     return image;
   }
+
+  public void delete (){model3d = null;}
 }

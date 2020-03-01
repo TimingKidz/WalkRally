@@ -17,6 +17,7 @@
 package com.example.walkrally;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.ar.core.AugmentedImage;
@@ -52,7 +54,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ImageView fitToScanView;
-
+  private  AugmentedImageNode node = null;
   // Augmented image and its associated center pose anchor, keyed by the augmented image in
   // the database.
   private final Map<AugmentedImage, AugmentedImageNode> augmentedImageMap = new HashMap<>();
@@ -60,6 +62,8 @@ public class AugmentedImageActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    node = null;
+
     setContentView(R.layout.activity_ar);
 
     Button sendButton = (Button) findViewById(R.id.senbut);
@@ -103,8 +107,10 @@ public class AugmentedImageActivity extends AppCompatActivity {
    *
    * @param frameTime - time since last frame.
    */
-  AugmentedImageNode node = null;
+
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private void onUpdateFrame(FrameTime frameTime) {
+
     Frame frame = arFragment.getArSceneView().getArFrame();
 
     // If there is no frame, just return.
@@ -127,23 +133,25 @@ public class AugmentedImageActivity extends AppCompatActivity {
           // Have to switch to UI Thread to update View.
           fitToScanView.setVisibility(View.GONE);
           if(node == null){
-//              if (!augmentedImageMap.containsKey(augmentedImage)) {
+              if (!augmentedImageMap.containsKey(augmentedImage)) {
+
                   if (augmentedImage.getName().equals("up.jpg")) {
                       node = new AugmentedImageNode(this, R.raw.up);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
-                      break;
+                      text = "Detected Image " + augmentedImage.getName();
+                      SnackbarHelper.getInstance().showMessage(this, text);
                   }else if (augmentedImage.getName().equals("down.jpg")) {
                       node = new AugmentedImageNode(this, R.raw.frame_lower_right);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
-                      break;
+                      text = "Detected Image " + augmentedImage.getName();
+                      SnackbarHelper.getInstance().showMessage(this, text);
                   }
-//            }
-              break;
 
+              }
           }
-            break;
+          break;
 
           // Create a new anchor for newly found images.
 
@@ -155,5 +163,6 @@ public class AugmentedImageActivity extends AppCompatActivity {
           break;
       }
     }
+
   }
 }
