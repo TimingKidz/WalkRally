@@ -140,7 +140,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }else if (augmentedImage.getName().equals("down.jpg")) {
-                      node = new AugmentedImageNode(this, R.raw.frame_lower_right);
+                      node = new AugmentedImageNode(this, R.raw.andy);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }
