@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setSelectedItemId(R.id.item_map)
     }
 
+
     // Custom Toolbar
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.toolbar, menu)
