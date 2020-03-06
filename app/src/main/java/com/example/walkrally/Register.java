@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class Register extends AppCompatActivity {
     }
     public void register(){
         final String email = emailId.getText().toString();
+
         String pwd = password.getText().toString();
         String pwd2 = passwordtwo.getText().toString();
         if(email.isEmpty()){
@@ -69,10 +71,11 @@ public class Register extends AppCompatActivity {
 
                     }
                     else {
+
                         User user = new User(
+                                mFirebaseAuth.getInstance().getCurrentUser().getUid(),
                                 email
                         );
-
                         FirebaseDatabase.getInstance().getReference().child("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
