@@ -1,12 +1,12 @@
 package com.example.walkrally
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.item_qr -> {
-                startActivity(Intent(this@MainActivity, Scanner::class.java)) // Switch to TransactionAdd.kt page
+                startActivity(Intent(this@MainActivity, AugmentedImageActivity::class.java)) // Switch to TransactionAdd.kt page
 //                overridePendingTransition(R.anim.bottom_up, R.anim.nothing) // Setting Transition
                 return@OnNavigationItemSelectedListener false
             }
@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setSelectedItemId(R.id.item_map)
     }
 
+
     // Custom Toolbar
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.toolbar, menu)
@@ -84,5 +85,9 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentContainer, fragment)
         fragmentTransaction.commit()
+    }
+
+    companion object {
+        const val REQUEST_CODE_ACCESS_LOCATION = 123
     }
 }
