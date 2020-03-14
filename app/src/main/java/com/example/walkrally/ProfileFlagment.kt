@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import org.w3c.dom.Text
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,6 +27,9 @@ import com.google.firebase.database.*
 class ProfileFlagment : Fragment() {
     // TODO: Rename and change types of parameters
     lateinit var textViewEmail: TextView
+    lateinit var textViewName:TextView
+    lateinit var textViewTeam:TextView
+    lateinit var textViewScore:TextView
     lateinit var btnLogout: Button
     lateinit var ref: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +46,10 @@ class ProfileFlagment : Fragment() {
         btnLogout = view.findViewById(R.id.logoutButton)
 
         textViewEmail = view.findViewById(R.id.emailView)
+        textViewName = view.findViewById(R.id.nameView)
+        textViewScore = view.findViewById(R.id.scoreView)
+        textViewTeam = view.findViewById(R.id.teamView)
+
         btnLogout.setOnClickListener{view ->
             logOut()
         }
@@ -64,6 +72,9 @@ class ProfileFlagment : Fragment() {
                     val user = u.getValue(User::class.java)
                     if(user != null){
                         textViewEmail.setText(user.email)
+                        textViewName.setText(user.name)
+                        textViewTeam.setText(user.team)
+                        textViewScore.setText(user.score)
                     }
                 }
 
