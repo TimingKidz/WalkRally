@@ -1,12 +1,10 @@
 package com.example.walkrally;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +40,7 @@ public class LoginMain extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if( mFirebaseUser != null ){
                     Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginMain.this, MainActivity.class);
+                    Intent i = new Intent(LoginMain.this, TeamList.class);
                     startActivity(i);
                 }
                 else{

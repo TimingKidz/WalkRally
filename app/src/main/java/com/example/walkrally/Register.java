@@ -88,7 +88,7 @@ public class Register extends AppCompatActivity {
                                 }
                             }
                         });
-                        startActivity(new Intent(Register.this,MainActivity.class));
+                        startActivity(new Intent(Register.this,CreateProfile.class));
                     }
                 }
             });

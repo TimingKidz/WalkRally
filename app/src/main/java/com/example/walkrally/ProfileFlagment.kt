@@ -28,14 +28,15 @@ class ProfileFlagment : Fragment() {
     // TODO: Rename and change types of parameters
     lateinit var textViewEmail: TextView
     lateinit var textViewName:TextView
-    lateinit var textViewTeam:TextView
-    lateinit var textViewScore:TextView
+    lateinit var age:TextView
+    lateinit var phone:TextView
     lateinit var btnLogout: Button
+    lateinit var btnTest:FloatingActionButton
     lateinit var ref: DatabaseReference
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +48,12 @@ class ProfileFlagment : Fragment() {
 
         textViewEmail = view.findViewById(R.id.emailView)
         textViewName = view.findViewById(R.id.nameView)
-        textViewScore = view.findViewById(R.id.scoreView)
-        textViewTeam = view.findViewById(R.id.teamView)
-
+        age = view.findViewById(R.id.ageView)
+        phone = view.findViewById(R.id.phoneView)
+        btnTest = view.findViewById(R.id.floatingActionButton3)
+        btnTest.setOnClickListener { view ->
+            startActivity(Intent(activity,testimage::class.java))
+        }
         btnLogout.setOnClickListener{view ->
             logOut()
         }
@@ -73,8 +77,8 @@ class ProfileFlagment : Fragment() {
                     if(user != null){
                         textViewEmail.setText(user.email)
                         textViewName.setText(user.name)
-                        textViewTeam.setText(user.team)
-                        textViewScore.setText(user.score)
+                        age.setText(user.age)
+                        phone.setText(user.telephone)
                     }
                 }
 
