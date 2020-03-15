@@ -67,7 +67,7 @@ class TeamList : AppCompatActivity() {
                     val team = t.getValue(Team::class.java)
                     team_list.add(team!!.id)
                 }
-                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
+                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_single_choice,team_list)
 
             }
         }
