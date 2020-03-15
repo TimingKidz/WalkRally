@@ -13,26 +13,33 @@ import kotlinx.android.synthetic.main.activity_create_team.*
 import java.util.ArrayList
 
 class TeamList : AppCompatActivity() {
-    var list: MutableList<String> = mutableListOf<String>()
+
     lateinit var ref: DatabaseReference
     lateinit var createBut:Button
+    lateinit var listView: ListView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_team)
+        listView = findViewById(R.id.listView)
+        ref = FirebaseDatabase.getInstance().getReference("Teams")
         readdata()
+
+
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
             val key = FirebaseDatabase.getInstance().getReference().child("Teams").push().key
             val Cuser = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key
-            creat_Team(Cuser!!,"0","",key.toString())
+            creat_Team(key.toString(),"0","test",Cuser!!)
         }
-        list_view.adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,list)
+
 
     }
     fun creat_Team( id:String,score:String, name:String, member:String){
         val team = Team(id,score,name,member)
         val mDatabase = FirebaseDatabase.getInstance().getReference().child("Teams")
-        mDatabase.child(member).setValue(team)
+        mDatabase.child(id).setValue(team)
     }
 
     fun join_Team(){
@@ -40,30 +47,30 @@ class TeamList : AppCompatActivity() {
     }
 
     fun readdata(){
-        ref = FirebaseDatabase.getInstance().getReference("Teams")
-        val query = FirebaseDatabase.getInstance().getReference("Teams")
+
+        val query = FirebaseDatabase.getInstance().getReference("Teams").orderByChild("id")
         query.addValueEventListener(postListener)
     }
 
     val postListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            // Get Post object and use the values to update the UI
-            for(u in dataSnapshot.children) {
-                Log.d("test",u.toString())
-                if(u!!.exists()){
-                    val team = u.getValue(Team::class.java)
-                    if(team != null){
-                        list.add(team.name)
-                    }
+        override fun onCancelled(p0: DatabaseError) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onDataChange(p0: DataSnapshot) {
+            var team_list:ArrayList<String>
+            team_list = arrayListOf()
+            if(p0!!.exists()){
+
+                for(t in p0.children){
+
+                    val team = t.getValue(Team::class.java)
+                    team_list.add(team!!.id)
                 }
+                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
 
             }
         }
 
-        override fun onCancelled(databaseError: DatabaseError) {
-            // Getting Post failed, log a message
-            Log.w("failed", "loadPost:onCancelled", databaseError.toException())
-            // ...
-        }
     }
 }
