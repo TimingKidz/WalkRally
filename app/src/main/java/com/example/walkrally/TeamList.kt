@@ -51,11 +51,12 @@ class TeamList : AppCompatActivity() {
     }
     fun creat_Team( id:String,score:String, name:String, member:String){
         val team = Team(id, score, name)
-        val members = Member()
-        members.setId1(member)
-        team.setMember(members)
+
         val mDatabase = FirebaseDatabase.getInstance().getReference().child("Teams")
         mDatabase.child(id).setValue(team)
+        ref = FirebaseDatabase.getInstance().getReference("Teams")
+        val query = FirebaseDatabase.getInstance().getReference("Teams")
+            .child(id).child("member").child(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key.toString()).setValue(1)
     }
 
     fun join_Team(id:String){
