@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import org.w3c.dom.Text
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,12 +27,16 @@ import com.google.firebase.database.*
 class ProfileFlagment : Fragment() {
     // TODO: Rename and change types of parameters
     lateinit var textViewEmail: TextView
+    lateinit var textViewName:TextView
+    lateinit var age:TextView
+    lateinit var phone:TextView
     lateinit var btnLogout: Button
+    lateinit var btnTest:FloatingActionButton
     lateinit var ref: DatabaseReference
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +47,13 @@ class ProfileFlagment : Fragment() {
         btnLogout = view.findViewById(R.id.logoutButton)
 
         textViewEmail = view.findViewById(R.id.emailView)
+        textViewName = view.findViewById(R.id.nameView)
+        age = view.findViewById(R.id.ageView)
+        phone = view.findViewById(R.id.phoneView)
+        btnTest = view.findViewById(R.id.floatingActionButton3)
+        btnTest.setOnClickListener { view ->
+            startActivity(Intent(activity,testimage::class.java))
+        }
         btnLogout.setOnClickListener{view ->
             logOut()
         }
@@ -64,6 +76,9 @@ class ProfileFlagment : Fragment() {
                     val user = u.getValue(User::class.java)
                     if(user != null){
                         textViewEmail.setText(user.email)
+                        textViewName.setText(user.name)
+                        age.setText(user.age)
+                        phone.setText(user.telephone)
                     }
                 }
 

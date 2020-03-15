@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +49,10 @@ public class Register extends AppCompatActivity {
             emailId.setError("Please enter email id");
             emailId.requestFocus();
         }
+        else if(pwd.length() <6  && pwd2.length() < 6 && pwd.length() > 25 && pwd2.length() > 25){
+            password.setError("Your password must be between 6 and 24 characters.");
+            password.requestFocus();
+        }
         else  if(pwd.isEmpty()){
             password.setError("Please enter your password");
             password.requestFocus();
@@ -68,7 +73,8 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
-
+                        emailId.setError("Error: Your email address is invalid.");
+                        emailId.requestFocus();
                     }
                     else {
 
@@ -85,10 +91,11 @@ public class Register extends AppCompatActivity {
                                     Toast.makeText(Register.this, "Register success", Toast.LENGTH_SHORT).show();
                                 } else {
                                     //display a failure message
+
                                 }
                             }
                         });
-                        startActivity(new Intent(Register.this,MainActivity.class));
+                        startActivity(new Intent(Register.this,CreateProfile.class));
                     }
                 }
             });

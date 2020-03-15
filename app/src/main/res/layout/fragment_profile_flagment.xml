@@ -51,10 +51,10 @@
         app:layout_constraintVertical_bias="0.35" />
 
     <TextView
-        android:id="@+id/teamView"
+        android:id="@+id/ageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="team"
+        android:text="age"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,10 +62,10 @@
         app:layout_constraintVertical_bias="0.40" />
 
     <TextView
-        android:id="@+id/scoreView"
+        android:id="@+id/phoneView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="score"
+        android:text="phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
