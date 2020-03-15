@@ -86,7 +86,7 @@ public class AugmentedImageNode extends AnchorNode {
     Node cornerNode;
 
     // Upper left corner.
-    localPosition.set(0.0f * image.getExtentX(), 0.0f, 0.1f * image.getExtentZ());
+    localPosition.set(0.0f * image.getExtentX(), 0.0f, 0.0f * image.getExtentZ());
     cornerNode = new Node();
     cornerNode.setParent(this);
     cornerNode.setLocalPosition(localPosition);
