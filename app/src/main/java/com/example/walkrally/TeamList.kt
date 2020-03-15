@@ -8,7 +8,7 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_create_team.*
-import java.util.ArrayList
+import java.util.*
 
 class TeamList : AppCompatActivity() {
 
@@ -63,8 +63,28 @@ class TeamList : AppCompatActivity() {
 
 
         ref = FirebaseDatabase.getInstance().getReference("Teams")
-        val query = FirebaseDatabase.getInstance().getReference("Teams")
-            .child(id).child("member").child(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key.toString()).setValue(1)
+        val check = ref.child(id).child("member")
+        check.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                if(dataSnapshot!!.exists()){
+                    Log.d("child",dataSnapshot.childrenCount.toString())
+                    if(dataSnapshot.childrenCount < 3){
+                        val query = FirebaseDatabase.getInstance().getReference("Teams")
+                            .child(id).child("member").child(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key.toString()).setValue(1)
+                    }else {
+                        Toast.makeText(applicationContext,"Team is Full",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("failed", "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        })
+
     }
 
 
@@ -90,9 +110,8 @@ class TeamList : AppCompatActivity() {
                 val cMember = p0.child("member").childrenCount.toString()
                 Log.d("OB",team.toString())
                 val t_idx = team_list.indexOf(team)
-                val c_idx = count_list.indexOf((Integer.parseInt(cMember)-1).toString())
                 team_list.set(t_idx,team)
-                count_list.set(c_idx,cMember)
+                count_list.set(t_idx,cMember)
                 listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
                 listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
