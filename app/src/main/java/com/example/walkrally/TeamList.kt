@@ -1,16 +1,14 @@
 package com.example.walkrally
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_create_team.*
-import java.util.ArrayList
+import java.util.*
+
 
 class TeamList : AppCompatActivity() {
 
@@ -29,6 +27,7 @@ class TeamList : AppCompatActivity() {
 
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
+            openDialog()
             val key = FirebaseDatabase.getInstance().getReference().child("Teams").push().key
             val Cuser = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key
             creat_Team(key.toString(),"0","test",Cuser!!)
@@ -36,6 +35,12 @@ class TeamList : AppCompatActivity() {
 
 
     }
+
+    private fun openDialog() {
+        val teamCreateDialog = TeamCreateDialog()
+        teamCreateDialog.show(supportFragmentManager, "example dialog")
+    }
+
     fun creat_Team( id:String,score:String, name:String, member:String){
         val team = Team(id,score,name,member)
         val mDatabase = FirebaseDatabase.getInstance().getReference().child("Teams")
