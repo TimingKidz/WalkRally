@@ -1,5 +1,6 @@
 package com.example.walkrally
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,10 +21,13 @@ class TeamList : AppCompatActivity() {
     lateinit var team_list:ArrayList<String>
     lateinit var count_list:ArrayList<String>
     val team_Path = "Team"
+    val event_path = "Event_Test"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_team)
+
         listView = findViewById(R.id.listView)
         listViewC = findViewById(R.id.listView2)
         ref = FirebaseDatabase.getInstance().getReference(team_Path)
@@ -51,17 +55,41 @@ class TeamList : AppCompatActivity() {
     }
     fun creat_Team( T_id:String,score:String, name:String, member:String){
         val team = Team(T_id, score, name)
-
         val mDatabase = FirebaseDatabase.getInstance().getReference().child(team_Path)
         mDatabase.child(T_id).setValue(team)
-        val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
+        FirebaseDatabase.getInstance().getReference("TeamMembers")
             .child(T_id).child("1").setValue(FirebaseAuth.getInstance().currentUser!!.uid)
+        val in_team = FirebaseDatabase.getInstance().getReference("Users")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
+        ref = FirebaseDatabase.getInstance().getReference("Users")
+        val getEvent     = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
+        getEvent.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                if(dataSnapshot!!.exists()){
+                    Log.d("event",dataSnapshot.value.toString())
+                    val in_Event = FirebaseDatabase.getInstance().getReference(event_path)
+                        .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
+
+                    val i = Intent(applicationContext,MainActivity::class.java)
+                    startActivity(i)
+
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("failed", "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        })
     }
 
     fun join_Team(T_id:String){
 
-
         ref = FirebaseDatabase.getInstance().getReference("TeamMembers")
+        val in_team = FirebaseDatabase.getInstance().getReference("Users")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
         val check = ref.child(T_id)
         check.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -81,6 +109,7 @@ class TeamList : AppCompatActivity() {
                             val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
                                 .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
 
+
                         }
 
                     }else {
@@ -95,7 +124,26 @@ class TeamList : AppCompatActivity() {
                 // ...
             }
         })
+        ref = FirebaseDatabase.getInstance().getReference("Users")
+        val getEvent     = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
+        getEvent.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                if(dataSnapshot!!.exists()){
+                    val in_Event = FirebaseDatabase.getInstance().getReference(event_path)
+                        .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
+                    val i = Intent(applicationContext,MainActivity::class.java)
+                    startActivity(i)
 
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("failed", "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        })
 
     }
 

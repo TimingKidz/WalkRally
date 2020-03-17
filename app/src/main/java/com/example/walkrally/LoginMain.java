@@ -40,7 +40,7 @@ public class LoginMain extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if( mFirebaseUser != null ){
                     Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(LoginMain.this, MainActivity.class);
+                    Intent i = new Intent(LoginMain.this, Event.class);
                     startActivity(i);
                 }
                 else{
