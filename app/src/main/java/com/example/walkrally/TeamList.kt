@@ -80,6 +80,7 @@ class TeamList : AppCompatActivity() {
                         if(!check_id_exists){
                             val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
                                 .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
+
                         }
 
                     }else {
@@ -94,7 +95,7 @@ class TeamList : AppCompatActivity() {
                 // ...
             }
         })
-        startActivity(Intent(this,MainActivity::class.java))
+
 
     }
 
