@@ -3,6 +3,7 @@ package com.example.walkrally;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,8 @@ public class CreateProfile extends AppCompatActivity {
                     Log.d("test",age);
                     Log.d("test",phone);
                     writeData(name,age,phone);
+                    Intent i = new Intent(CreateProfile.this, Event.class);
+                    startActivity(i);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
