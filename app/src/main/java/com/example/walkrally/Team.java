@@ -6,15 +6,12 @@ public class Team {
     public String id;
     public String score;
     public String name;
-    public String member;
-
-    public Team(){
-
-    }
-    public Team(String id,String score, String name, String member){
+    public Team(){}
+    public Team(String id, String score, String name) {
         this.id = id;
         this.score = score;
         this.name = name;
-        this.member = member;
     }
+
+
 }
