@@ -2,6 +2,7 @@ package com.example.walkrally
 
 import android.content.Context
 import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,10 @@ class TeamAdapter(val mCtx: Context,val resources: Int,val items: List<Team>)
         val textViewN = view.findViewById<TextView>(R.id.TeamN)
 
         var mItem:Team = items[position]
+        Log.d("OB", mItem.name)
+        Log.d("OB", mItem.mcount)
         textViewName.text = mItem.name
-        textViewN.text = mItem.name
+        textViewN.text = mItem.mcount
 
         return view
     }
