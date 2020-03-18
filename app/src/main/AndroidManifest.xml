@@ -30,7 +30,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TeamList"></activity>
+        <activity android:name=".Event"></activity>
+        <activity android:name=".TeamList" />
         <activity android:name=".CreateProfile" />
         <activity android:name=".testimage" />
 
@@ -42,7 +43,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".Register" />
-        <activity android:name=".LoginMain"
+        <activity
+            android:name=".LoginMain"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
