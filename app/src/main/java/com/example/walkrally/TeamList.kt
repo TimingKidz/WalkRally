@@ -1,13 +1,13 @@
 package com.example.walkrally
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import java.util.*
+
 
 class TeamList : AppCompatActivity() {
 
@@ -17,6 +17,7 @@ class TeamList : AppCompatActivity() {
     lateinit var logoutBut:Button
     lateinit var listView: ListView
     lateinit var listViewC: ListView
+    var t_list = ArrayList<Team>()
     lateinit var team_list:ArrayList<String>
     lateinit var count_list:ArrayList<String>
     val team_Path = "Team"
@@ -39,8 +40,7 @@ class TeamList : AppCompatActivity() {
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
             val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
-            val Current_user = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key
-            creat_Team(key.toString(),"0","test",Current_user!!)
+            creat_Team(key.toString(),"0","test","1","1","")
         }
         joinBut = findViewById(R.id.btnJoin)
         joinBut.setOnClickListener { view ->
@@ -49,8 +49,8 @@ class TeamList : AppCompatActivity() {
 
 
     }
-    fun creat_Team( T_id:String,score:String, name:String, member:String){
-        val team = Team(T_id, score, name)
+    fun creat_Team( T_id:String,score:String, name:String, mcount:String, checkpoint:String, event:String){
+        val team = Team(T_id, score, name, mcount, checkpoint, event)
 
         val mDatabase = FirebaseDatabase.getInstance().getReference().child(team_Path)
         mDatabase.child(T_id).setValue(team)
@@ -118,14 +118,19 @@ class TeamList : AppCompatActivity() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val team = p0.child("id").value.toString()
-//                val cMember = p0.child("member").childrenCount.toString()
-                Log.d("OB",team.toString())
-                val t_idx = team_list.indexOf(team)
-                team_list.set(t_idx,team)
-//                count_list.set(t_idx,cMember)
-                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-//                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
+                val id = p0.child("id").value.toString()
+                val name = p0.child("name").value.toString()
+                val c = p0.child("mcount").value.toString()
+                val t = Team(id, "", name, c, "", "")
+                Log.d("OB",c)
+                for (i in 0..t_list.size){
+                    if(t_list[i].id == id){
+                        t_list[i] = t
+                    }
+                }
+                var t_idx = team_list.indexOf(id)
+                team_list.set(t_idx,id)
+                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
 
                     join_Team(team_list[position])
@@ -135,13 +140,14 @@ class TeamList : AppCompatActivity() {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
 
-                val team = p0.child("id").value.toString()
-//                val cMember = p0.child("member").childrenCount.toString()
-                Log.d("OB",team.toString())
-                team_list.add(team)
-//                count_list.add(cMember)
-                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-//                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
+                val id = p0.child("id").value.toString()
+                val name = p0.child("name").value.toString()
+                val c = p0.child("mcount").value.toString()
+                val t = Team(id, "", name, c, "", "")
+                Log.d("OB",c)
+                t_list.add(t)
+                team_list.add(id)
+                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
 
                     join_Team(team_list[position])
@@ -151,13 +157,14 @@ class TeamList : AppCompatActivity() {
 
             override fun onChildRemoved(p0: DataSnapshot) {
 
-                val team = p0.child("id").value.toString()
-//                val cMember = p0.child("member").childrenCount.toString()
-                Log.d("OB",team.toString())
-                team_list.remove(team)
-//                count_list.remove(cMember)
-                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-//                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
+                val id = p0.child("id").value.toString()
+                for (i in 0..t_list.size){
+                    if(t_list[i].id == id){
+                        t_list.removeAt(i)
+                    }
+                }
+                team_list.remove(id)
+                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
 
                     join_Team(team_list[position])
@@ -176,33 +183,21 @@ class TeamList : AppCompatActivity() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-//                val team = p0.child("id").value.toString()
-                val team = p0.key.toString()
-                val cMember = p0.childrenCount.toString()
-//                Log.d("OB",team.toString())
-                val t_idx = team_list.indexOf(team)
-//                team_list.set(t_idx,team)
-                count_list.set(t_idx,cMember)
-//                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
-
+                val id = p0.key.toString()
+                val c = p0.childrenCount.toString()
+                FirebaseDatabase.getInstance().getReference().child(team_Path).child(id).child("mcount").setValue(c)
+                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-
-                val cMember = p0.childrenCount.toString()
-////                Log.d("OB",team.toString())
-                count_list.add(cMember)
-//                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
+                val id = p0.key.toString()
+                val c = p0.childrenCount.toString()
+                FirebaseDatabase.getInstance().getReference().child(team_Path).child(id).child("mcount").setValue(c)
+                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
 
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                val cMember = p0.childrenCount.toString()
-                count_list.remove(cMember)
-//                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-                listViewC.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,count_list)
 
             }
 
@@ -212,7 +207,7 @@ class TeamList : AppCompatActivity() {
         val team_count_list = FirebaseDatabase.getInstance().getReference("TeamMembers").orderByKey()
         Log.d("team_Count_key",team_count_list.toString())
         team_count_list.addChildEventListener(countListener)
-        
+
 
     }
 
