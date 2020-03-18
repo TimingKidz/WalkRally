@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -34,6 +35,12 @@ import com.google.ar.core.AugmentedImageDatabase;
 import com.google.ar.core.Config;
 import com.google.ar.core.Session;
 import com.google.ar.sceneform.ux.ArFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,11 +52,14 @@ import helpers.SnackbarHelper;
  */
 public class AugmentedImageFragment extends ArFragment {
   private static final String TAG = "AugmentedImageFragment";
+  private DatabaseReference mDatabase;
 
   // This is the name of the image in the sample database.  A copy of the image is in the assets
   // directory.  Opening this image on your computer is a good quick way to test the augmented image
   // matching.
-  private static final String DEFAULT_IMAGE_NAME = "up.jpeg";
+  private String DEFAULT_IMAGE_NAME = "";
+  private User user;
+  private Team team;
 
   // This is a pre-created database containing the sample image.
   private static final String SAMPLE_IMAGE_DATABASE = "edmtdev.imgdb";
@@ -61,6 +71,8 @@ public class AugmentedImageFragment extends ArFragment {
   // Do a runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
   // application.
   private static final double MIN_OPENGL_VERSION = 3.0;
+
+
 
   @Override
   public void onAttach(Context context) {
@@ -99,13 +111,23 @@ public class AugmentedImageFragment extends ArFragment {
 
   @Override
   protected Config getSessionConfiguration(Session session) {
+
     Config config = super.getSessionConfiguration(session);
-    config.setFocusMode(Config.FocusMode.AUTO);
-    if (!setupAugmentedImageDatabase(config, session)) {
-      SnackbarHelper.getInstance()
-          .showError(getActivity(), "Could not setup augmented image database");
-    }
-    session.configure(config);
+    new User().readTeamcp(new User.MyCallbackk() {
+          @Override
+          public void onCallbackk(Clues value) {
+              Toast.makeText(getActivity(),
+                     value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
+              DEFAULT_IMAGE_NAME = value.img;
+              config.setFocusMode(Config.FocusMode.AUTO);
+              if (!setupAugmentedImageDatabase(config, session)) {
+                  SnackbarHelper.getInstance()
+                          .showError(getActivity(), "Could not setup augmented image database");
+              }
+              session.configure(config);
+          }
+      });
+
     return config;
   }
 
@@ -124,6 +146,8 @@ public class AugmentedImageFragment extends ArFragment {
     // Option 2) has
     // * shorter setup time
     // * doesn't require images to be packaged in apk.
+
+
     if (USE_SINGLE_IMAGE) {
       Bitmap augmentedImageBitmap = loadAugmentedImageBitmap(assetManager);
       if (augmentedImageBitmap == null) {

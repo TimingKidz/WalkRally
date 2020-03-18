@@ -44,7 +44,12 @@ class TeamList : AppCompatActivity() {
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
             val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
-            creat_Team(key.toString(),"0","test","1","1","")
+            User().readData(object : User.MyCallback {
+                override fun onCallback(value: User) {
+                    creat_Team(key.toString(),"0","test","1","1",value.event)
+                }
+            })
+
         }
         joinBut = findViewById(R.id.btnJoin)
         joinBut.setOnClickListener { view ->
