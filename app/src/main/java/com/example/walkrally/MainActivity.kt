@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_teams_flagment.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -66,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottomNavigationView.setSelectedItemId(R.id.item_map)
     }
-
 
     // Custom Toolbar
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
