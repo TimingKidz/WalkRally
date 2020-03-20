@@ -50,6 +50,8 @@ public class User {
         this.telephone = "";
         this.age = "0";
         this.img = "";
+        this.event = "";
+        this.team = "";
 
     }
     public User(String name, String age, String telephone){

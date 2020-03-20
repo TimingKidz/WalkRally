@@ -102,12 +102,12 @@ public class AugmentedImageActivity extends AppCompatActivity {
                                                       @Override
                                                       public void onDataChange(DataSnapshot dataSnapshot) {
                                                           User value = dataSnapshot.getValue(User.class);
-                                                          FirebaseDatabase.getInstance().getReference("Teams").child(value.team)
+                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
                                                                   .addListenerForSingleValueEvent(new ValueEventListener() {
                                                                       @Override
                                                                       public void onDataChange(DataSnapshot dataSnapshot) {
                                                                           Team value = dataSnapshot.getValue(Team.class);
-                                                                          FirebaseDatabase.getInstance().getReference("Teams").child(value.id).child("isFin").setValue(true);
+                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("isFin").setValue(true);
                                                                       }
                                                                       @Override
                                                                       public void onCancelled(DatabaseError databaseError) {}
@@ -124,13 +124,13 @@ public class AugmentedImageActivity extends AppCompatActivity {
                                                       @Override
                                                       public void onDataChange(DataSnapshot dataSnapshot) {
                                                           User value = dataSnapshot.getValue(User.class);
-                                                          FirebaseDatabase.getInstance().getReference("Teams").child(value.team)
+                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
                                                                   .addListenerForSingleValueEvent(new ValueEventListener() {
                                                                       @Override
                                                                       public void onDataChange(DataSnapshot dataSnapshot) {
                                                                           Team value = dataSnapshot.getValue(Team.class);
                                                                           int temp = Integer.parseInt(value.checkp) + 1;
-                                                                          FirebaseDatabase.getInstance().getReference("Teams").child(value.id).child("checkp").setValue(Integer.toString(temp));
+                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("checkp").setValue(Integer.toString(temp));
                                                                       }
                                                                       @Override
                                                                       public void onCancelled(DatabaseError databaseError) {}
@@ -211,16 +211,17 @@ public class AugmentedImageActivity extends AppCompatActivity {
 
         case TRACKING:
           // Have to switch to UI Thread to update View.
+            SnackbarHelper.getInstance().hide(this);
           fitToScanView.setVisibility(View.GONE);
           if(node == null){
               if (!augmentedImageMap.containsKey(augmentedImage)) {
-                  SnackbarHelper.getInstance().hide(this);
+
                   if (augmentedImage.getName().equals("up.jpeg")) {
-                      node = new AugmentedImageNode(this, R.raw.up);
+                      node = new AugmentedImageNode(this, R.raw.q1fixsize2);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }else if (augmentedImage.getName().equals("down.jpeg")) {
-                      node = new AugmentedImageNode(this, R.raw.andy);
+                      node = new AugmentedImageNode(this, R.raw.mac);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }

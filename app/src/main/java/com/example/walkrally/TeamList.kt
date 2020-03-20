@@ -1,11 +1,11 @@
 package com.example.walkrally
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.*
-import androidx.annotation.IntegerRes
+import android.widget.Button
+import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -18,11 +18,12 @@ class TeamList : AppCompatActivity() {
     lateinit var joinBut:Button
     lateinit var logoutBut:Button
     lateinit var listView: ListView
+    lateinit var listViewC: ListView
     var t_list = ArrayList<Team>()
     lateinit var team_list:ArrayList<String>
     lateinit var count_list:ArrayList<String>
     val team_Path = "Team"
-    val event_path = "Event_Test"
+    val event_path = "Events"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,7 @@ class TeamList : AppCompatActivity() {
         setContentView(R.layout.activity_create_team)
 
         listView = findViewById(R.id.listView)
-
+        listViewC = findViewById(R.id.listView2)
         ref = FirebaseDatabase.getInstance().getReference(team_Path)
 
         team_list = arrayListOf()
@@ -78,6 +79,8 @@ class TeamList : AppCompatActivity() {
                         .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
 
                     val i = Intent(applicationContext,MainActivity::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(i)
 
                 }
@@ -139,6 +142,8 @@ class TeamList : AppCompatActivity() {
                     val in_Event = FirebaseDatabase.getInstance().getReference(event_path)
                         .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
                     val i = Intent(applicationContext,MainActivity::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(i)
 
                 }

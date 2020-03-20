@@ -3,6 +3,7 @@ package com.example.walkrally
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +17,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import kotlinx.android.synthetic.main.activity_testimage.*
 import kotlinx.android.synthetic.main.fragment_map_flagment.*
+import kotlinx.android.synthetic.main.layout_hint.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -35,14 +38,51 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context!!);
         map_view.onCreate(savedInstanceState)
         map_view.onResume()
+        hint.setVisibility(View.INVISIBLE)
 
         map_view.getMapAsync(this)
+
+        Team().readData(object : Team.MyCallback {
+            override fun onCallback(value: Team) {
+                if(!value.isFin){
+                    User().readTeamcp(object : User.MyCallbackk {
+                        override fun onCallbackk(value: Clues) {
+                            if(value.Radius != 0.0){
+                                drawCircle(value.Latitude,value.Longtitude,value.Radius)
+                                hint.setVisibility(View.VISIBLE)
+                            }
+
+                        }
+                    })
+
+                }else{
+
+                }
+
+            }
+        })
+
+
+
     }
 
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
             googleMap = it
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        hint.setOnClickListener(View.OnClickListener{ OpenDialog() })
+
+
+
+    }
+
+    fun OpenDialog(){
+        var hh = hintDialog()
+        hh.show(childFragmentManager, "")
     }
 
     override fun onCreateView(
@@ -82,7 +122,6 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
                         .target(LatLng(location.latitude, location.longitude))
                         .zoom(64f).build()
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(de))
-                    drawCircle(location.latitude, location.longitude, 1.0)
                 }
             }
         } else {
@@ -102,7 +141,7 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
             .radius(radius)
             .strokeWidth(1.0f)
             .strokeColor(ContextCompat.getColor(context!!, R.color.bottom_nav_item_color))
-            .fillColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+            .fillColor(Color.parseColor("#2271cce7"))
         circle?.remove() // Remove old circle.
         circle = googleMap?.addCircle(circleOptions) // Draw new circle.
     }

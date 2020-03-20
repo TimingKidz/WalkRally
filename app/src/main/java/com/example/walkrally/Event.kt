@@ -19,7 +19,7 @@ class Event : AppCompatActivity() {
     lateinit var ref: DatabaseReference
     lateinit var event_list: ArrayList<String>
     lateinit var textView: TextView
-    val event_path = "Event_Test"
+    val event_path = "Events"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -84,3 +84,13 @@ sceneform.asset('sampledata/up.fbx',
         'default',
         'sampledata/up.sfa',
         'src/main/res/raw/up')
+
+sceneform.asset('sampledata/q1fixsize2.fbx',
+        'default',
+        'sampledata/q1fixsize2.sfa',
+        'src/main/res/raw/q1fixsize2')
+
+sceneform.asset('sampledata/mac.fbx',
+        'default',
+        'sampledata/mac.sfa',
+        'src/main/res/raw/mac')
