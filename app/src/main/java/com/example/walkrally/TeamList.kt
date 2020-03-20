@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.annotation.IntegerRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -17,7 +18,6 @@ class TeamList : AppCompatActivity() {
     lateinit var joinBut:Button
     lateinit var logoutBut:Button
     lateinit var listView: ListView
-    lateinit var listViewC: ListView
     var t_list = ArrayList<Team>()
     lateinit var team_list:ArrayList<String>
     lateinit var count_list:ArrayList<String>
@@ -30,7 +30,7 @@ class TeamList : AppCompatActivity() {
         setContentView(R.layout.activity_create_team)
 
         listView = findViewById(R.id.listView)
-        listViewC = findViewById(R.id.listView2)
+
         ref = FirebaseDatabase.getInstance().getReference(team_Path)
 
         team_list = arrayListOf()
@@ -46,7 +46,7 @@ class TeamList : AppCompatActivity() {
             val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
             User().readData(object : User.MyCallback {
                 override fun onCallback(value: User) {
-                    creat_Team(key.toString(),"0","test","1","1",value.event)
+                    creat_Team(key.toString(),0,"test","1","1",value.event)
                 }
             })
 
@@ -58,7 +58,7 @@ class TeamList : AppCompatActivity() {
 
 
     }
-    fun creat_Team( T_id:String,score:String, name:String, mcount:String, checkpoint:String, event:String){
+    fun creat_Team( T_id:String,score:Int, name:String, mcount:String, checkpoint:String, event:String){
         val team = Team(T_id, score, name, mcount, checkpoint, event)
 
         val mDatabase = FirebaseDatabase.getInstance().getReference().child(team_Path)
@@ -175,11 +175,12 @@ class TeamList : AppCompatActivity() {
                 val id = p0.child("id").value.toString()
                 val name = p0.child("name").value.toString()
                 val c = p0.child("mcount").value.toString()
-                val t = Team(id, "", name, c, "", "")
+                val t = Team(id, 0, name, c, "", "")
                 Log.d("OB",c)
-                for (i in 0..t_list.size){
+                for (i in 0..t_list.size-1){
                     if(t_list[i].id == id){
                         t_list[i] = t
+                        break
                     }
                 }
                 var t_idx = team_list.indexOf(id)
@@ -197,7 +198,7 @@ class TeamList : AppCompatActivity() {
                 val id = p0.child("id").value.toString()
                 val name = p0.child("name").value.toString()
                 val c = p0.child("mcount").value.toString()
-                val t = Team(id, "", name, c, "", "")
+                val t = Team(id, 0, name, c, "", "")
                 Log.d("OB",c)
                 t_list.add(t)
                 team_list.add(id)

@@ -10,7 +10,7 @@ import java.lang.reflect.Array;
 
 public class Team {
     public String id;
-    public String score;
+    public int score;
     public String name;
     public String checkp;
     public String event;
@@ -20,7 +20,7 @@ public class Team {
     public Team(){
 
     }
-    public Team(String id,String score, String name, String mcount,String checkpoint , String event){
+    public Team(String id,int score, String name, String mcount,String checkpoint , String event){
         this.id = id;
         this.score = score;
         this.name = name;
