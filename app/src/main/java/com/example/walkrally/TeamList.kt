@@ -31,17 +31,15 @@ class TeamList : AppCompatActivity() {
         setContentView(R.layout.activity_create_team)
 
         listView = findViewById(R.id.listView)
-        listViewC = findViewById(R.id.listView2)
+
         ref = FirebaseDatabase.getInstance().getReference(team_Path)
 
         team_list = arrayListOf()
         count_list = arrayListOf()
         readdata()
 
-        logoutBut = findViewById(R.id.btnLogout)
-        logoutBut.setOnClickListener { view ->
-            logOut()
-        }
+
+
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
             val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
@@ -51,9 +49,6 @@ class TeamList : AppCompatActivity() {
                 }
             })
 
-        }
-        joinBut = findViewById(R.id.btnJoin)
-        joinBut.setOnClickListener { view ->
 
         }
 
@@ -61,22 +56,26 @@ class TeamList : AppCompatActivity() {
     }
     fun creat_Team( T_id:String,score:Int, name:String, mcount:String, checkpoint:String, event:String){
         val team = Team(T_id, score, name, mcount, checkpoint, event)
+        FirebaseDatabase.getInstance().getReference().child(team_Path).child(T_id).setValue(team) // create Team "id" in Team
 
-        val mDatabase = FirebaseDatabase.getInstance().getReference().child(team_Path)
-        mDatabase.child(T_id).setValue(team)
-        FirebaseDatabase.getInstance().getReference("TeamMembers")
+        FirebaseDatabase.getInstance().getReference("TeamMembers") // create TeamMembers
             .child(T_id).child("1").setValue(FirebaseAuth.getInstance().currentUser!!.uid)
-        val in_team = FirebaseDatabase.getInstance().getReference("Users")
+        FirebaseDatabase.getInstance().getReference("Users")//create child "team" in Users
             .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
-        ref = FirebaseDatabase.getInstance().getReference("Users")
-        val getEvent     = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
-        getEvent.addListenerForSingleValueEvent(object :ValueEventListener{
+        val getEvent     = FirebaseDatabase.getInstance().getReference("Users")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
+        getEvent.addListenerForSingleValueEvent(object :ValueEventListener{ //read data in each Event
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 if(dataSnapshot!!.exists()){
-                    Log.d("event",dataSnapshot.value.toString())
-                    val in_Event = FirebaseDatabase.getInstance().getReference(event_path)
-                        .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
+                    Team().readData(object : Team.MyCallback {
+                        override fun onCallback(value: Team?) {
+                            FirebaseDatabase.getInstance().getReference(event_path) // create Team at Events
+                                .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(value!!.mcount)
+                        }
+
+                    })
+
 
                     val i = Intent(applicationContext,MainActivity::class.java)
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -96,10 +95,8 @@ class TeamList : AppCompatActivity() {
 
     fun join_Team(T_id:String){
 
-        ref = FirebaseDatabase.getInstance().getReference("TeamMembers")
-        val in_team = FirebaseDatabase.getInstance().getReference("Users")
-            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
-        val check = ref.child(T_id)
+
+        val check = FirebaseDatabase.getInstance().getReference("TeamMembers").child(T_id) //read TeamMembers
         check.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -117,7 +114,12 @@ class TeamList : AppCompatActivity() {
                         if(!check_id_exists){
                             val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
                                 .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
-
+                            FirebaseDatabase.getInstance().getReference("Users") // create Team "id" in Users
+                                .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
+                            val i = Intent(applicationContext,MainActivity::class.java)
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(i)
 
                         }
 
@@ -133,18 +135,21 @@ class TeamList : AppCompatActivity() {
                 // ...
             }
         })
-        ref = FirebaseDatabase.getInstance().getReference("Users")
-        val getEvent     = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
+
+        val getEvent     = FirebaseDatabase.getInstance().getReference("Users") // In Users.event
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).child("event")
         getEvent.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 if(dataSnapshot!!.exists()){
-                    val in_Event = FirebaseDatabase.getInstance().getReference(event_path)
-                        .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(T_id)
-                    val i = Intent(applicationContext,MainActivity::class.java)
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(i)
+                    Team().readData(object : Team.MyCallback {
+                        override fun onCallback(value: Team?) {
+                            FirebaseDatabase.getInstance().getReference(event_path) // create Team at Events
+                                .child(dataSnapshot.value.toString()).child("team").child(T_id).setValue(value!!.mcount)
+                        }
+
+                    })
+
 
                 }
             }
@@ -233,6 +238,37 @@ class TeamList : AppCompatActivity() {
             }
 
         }
+        val countTeamlistener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                var sum = 0
+                for(data in p0.children){
+
+                    sum += Integer.parseInt(data.child("mcount").value.toString())
+                }
+                User().readData(object : User.MyCallback {
+                    override fun onCallback(value: User?) {
+
+
+                        FirebaseDatabase.getInstance().getReference(event_path).child(value!!.event).child("mcount").setValue(sum.toInt())
+                        Log.d("sum",sum.toString())
+                    }
+
+                })
+            }
+        }
+        User().readData(object : User.MyCallback {
+            override fun onCallback(value: User?) {
+                val team_name_list = FirebaseDatabase.getInstance().getReference(team_Path).orderByChild("event").equalTo(value!!.event)
+                team_name_list.addChildEventListener(postListener)
+                val count_team_event = FirebaseDatabase.getInstance().getReference("Team").orderByChild("event").equalTo(value!!.event)
+                count_team_event.addValueEventListener(countTeamlistener)
+            }
+
+        })
         val countListener = object : ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
 
@@ -262,40 +298,13 @@ class TeamList : AppCompatActivity() {
             }
 
         }
-        val team_name_list = FirebaseDatabase.getInstance().getReference(team_Path).orderByChild("id")
-        team_name_list.addChildEventListener(postListener)
         val team_count_list = FirebaseDatabase.getInstance().getReference("TeamMembers").orderByKey()
-        Log.d("team_Count_key",team_count_list.toString())
         team_count_list.addChildEventListener(countListener)
+
+
 
 
     }
 
-//    val postListener = object : ValueEventListener {
-//        override fun onCancelled(p0: DatabaseError) {
-//            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        }
-//
-//        override fun onDataChange(p0: DataSnapshot) {
-//            var team_list:ArrayList<String>
-//            team_list = arrayListOf()
-//            if(p0!!.exists()){
-//
-//                for(t in p0.children){
-//
-////                    val team = t.getValue(Team::class.java)!!.toString()
-////                    team_list.add(team)
-////                    val teamid = t.child()
-//                    Log.d("OB",teamid)
-//                }
-////                Log.d("OB",p0.getValue(Team::class.java)!!.id.toString())
-//                listView.adapter = ArrayAdapter<String>(applicationContext,android.R.layout.simple_list_item_1,team_list)
-//                listView.setOnItemClickListener { parent, view, position, id ->
-//                    Toast.makeText(applicationContext,team_list[position],Toast.LENGTH_SHORT).show()
-//                    join_Team(team_list[position])
-//                }
-//            }
-//        }
-//
-//    }
+
 }

@@ -76,7 +76,6 @@ public class User {
     public interface MyCallbackk {
         void onCallbackk(Clues value);
     }
-
     public void readData(User.MyCallback myCallback) {
         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {

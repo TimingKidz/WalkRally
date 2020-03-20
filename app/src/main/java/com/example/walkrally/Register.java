@@ -89,13 +89,14 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Register success", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(Register.this,CreateProfile.class));
                                 } else {
                                     //display a failure message
 
                                 }
                             }
                         });
-                        startActivity(new Intent(Register.this,CreateProfile.class));
+
                     }
                 }
             });
