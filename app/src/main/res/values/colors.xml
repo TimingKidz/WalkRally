@@ -3,4 +3,25 @@
     <color name="colorPrimary">#cc0000</color>
     <color name="colorPrimaryDark">#cc0000</color>
     <color name="colorAccent">#cc0000</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="Gray">#808080</color>
+    <color name="DarkGray">#757575</color>
+    <color name="Black">#FF000000</color>
+    <color name="Red">#FF0000</color>
+    <color name="Maroon">#FF800000</color>
+    <color name="Yellow">#FFFFFF00</color>
+    <color name="Olive">#FF808000</color>
+    <color name="Lime">#FF00FF00</color>
+    <color name="Green">#008000</color>
+    <color name="Aqua">#00FFFF</color>
+    <color name="Teal">#008080</color>
+    <color name="Blue">#FF0000FF</color>
+    <color name="Navy">#FF000080</color>
+    <color name="Fuchsia">#FFFF00FF</color>
+    <color name="Purple">#FF800080</color>
+    <color name="Material600_Orange">#FB8C00</color>
+    <color name="Material500_Orange">#FF9800</color>
+    <color name="button_pressed_trans">#1A000000</color>
+    <color name="button_bg">#E6FFFFFF</color>
 </resources>
