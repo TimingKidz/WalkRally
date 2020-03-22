@@ -42,7 +42,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".Register" />
+        <activity android:name=".Register"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".LoginMain"
             android:theme="@style/AppTheme.NoActionBar">
