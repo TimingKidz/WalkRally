@@ -3,6 +3,7 @@
     <color name="colorPrimary">#cc0000</color>
     <color name="colorPrimaryDark">#cc0000</color>
     <color name="colorAccent">#cc0000</color>
+    <color name="button_pressed">#AA0000</color>
     <color name="White">#FFFFFF</color>
     <color name="Silver">#C0C0C0</color>
     <color name="Gray">#808080</color>

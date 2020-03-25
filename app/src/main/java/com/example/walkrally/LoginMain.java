@@ -35,35 +35,35 @@ public class LoginMain extends AppCompatActivity {
         password = findViewById(R.id.passText);
         btnSignIn = findViewById(R.id.loginButton);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                if( mFirebaseUser != null ){
-                    Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    new User().readData(new User.MyCallback() {
-                        @Override
-                        public void onCallback(User value) {
-                            Intent i;
-                            if(value.event.equals("")){
-                                i = new Intent(LoginMain.this,Event.class);
-                            }else if(value.team.equals("")){
-                                i = new Intent(LoginMain.this,TeamList.class);
-                            }else {
-                                i = new Intent(LoginMain.this,MainActivity.class);
-                            }
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
-                        }
-                    });
-
-                }
-                else{
-                    Toast.makeText(LoginMain.this,"Please Login",Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+//                if( mFirebaseUser != null ){
+//                    Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
+//                    new User().readData(new User.MyCallback() {
+//                        @Override
+//                        public void onCallback(User value) {
+//                            Intent i;
+//                            if(value.event.equals("")){
+//                                i = new Intent(LoginMain.this,Event.class);
+//                            }else if(value.team.equals("")){
+//                                i = new Intent(LoginMain.this,TeamList.class);
+//                            }else {
+//                                i = new Intent(LoginMain.this,MainActivity.class);
+//                            }
+//                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(i);
+//                        }
+//                    });
+//
+//                }
+//                else{
+//                    Toast.makeText(LoginMain.this,"Please Login",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,10 +122,10 @@ public class LoginMain extends AppCompatActivity {
         startActivity(intSignUp);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+//    }
 }
 
