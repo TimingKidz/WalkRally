@@ -106,4 +106,9 @@ public class Register extends AppCompatActivity {
 
         }
     }
+
+    public void onSignInClick(View v){
+        Intent intSignIn = new Intent(Register.this, LoginMain.class);
+        startActivity(intSignIn);
+    }
 }

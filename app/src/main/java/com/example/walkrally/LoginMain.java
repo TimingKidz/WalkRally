@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginMain extends AppCompatActivity {
 
     EditText emailId, password;
-    Button btnSignIn,btnSignUp;
+    Button btnSignIn;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -34,37 +34,36 @@ public class LoginMain extends AppCompatActivity {
         emailId = findViewById(R.id.emailText);
         password = findViewById(R.id.passText);
         btnSignIn = findViewById(R.id.loginButton);
-        btnSignUp = findViewById(R.id.gosignUp);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                if( mFirebaseUser != null ){
-                    Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    new User().readData(new User.MyCallback() {
-                        @Override
-                        public void onCallback(User value) {
-                            Intent i;
-                            if(value.event.equals("")){
-                                i = new Intent(LoginMain.this,Event.class);
-                            }else if(value.team.equals("")){
-                                i = new Intent(LoginMain.this,TeamList.class);
-                            }else {
-                                i = new Intent(LoginMain.this,MainActivity.class);
-                            }
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
-                        }
-                    });
-
-                }
-                else{
-                    Toast.makeText(LoginMain.this,"Please Login",Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+//                if( mFirebaseUser != null ){
+//                    Toast.makeText(LoginMain.this,"You are logged in",Toast.LENGTH_SHORT).show();
+//                    new User().readData(new User.MyCallback() {
+//                        @Override
+//                        public void onCallback(User value) {
+//                            Intent i;
+//                            if(value.event.equals("")){
+//                                i = new Intent(LoginMain.this,Event.class);
+//                            }else if(value.team.equals("")){
+//                                i = new Intent(LoginMain.this,TeamList.class);
+//                            }else {
+//                                i = new Intent(LoginMain.this,MainActivity.class);
+//                            }
+//                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(i);
+//                        }
+//                    });
+//
+//                }
+//                else{
+//                    Toast.makeText(LoginMain.this,"Please Login",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,19 +116,17 @@ public class LoginMain extends AppCompatActivity {
             }
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intSignUp = new Intent(LoginMain.this, Register.class);
-                startActivity(intSignUp);
-            }
-        });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    public void onSignUpClick(View v) {
+        Intent intSignUp = new Intent(LoginMain.this, Register.class);
+        startActivity(intSignUp);
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+//    }
 }
 
