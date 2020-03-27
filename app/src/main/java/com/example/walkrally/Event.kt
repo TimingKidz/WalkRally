@@ -1,17 +1,13 @@
 package com.example.walkrally
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -26,7 +22,7 @@ class Event : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
 
-        listView = findViewById(R.id.listView)
+        listView = findViewById(R.id.rView)
         ref = FirebaseDatabase.getInstance().getReference(event_path)
         ES_list = arrayListOf()
         event_list = arrayListOf()

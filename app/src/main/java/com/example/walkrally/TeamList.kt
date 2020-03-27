@@ -30,7 +30,7 @@ class TeamList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_team)
 
-        listView = findViewById(R.id.listView)
+        listView = findViewById(R.id.rView)
 
         ref = FirebaseDatabase.getInstance().getReference(team_Path)
 

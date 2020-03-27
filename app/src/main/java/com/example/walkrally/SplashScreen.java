@@ -35,7 +35,7 @@ public class SplashScreen extends AppCompatActivity {
                                 i = new Intent(SplashScreen.this,Event.class);
                             }else if(value.team.equals("")){
                                 i = new Intent(SplashScreen.this,TeamList.class);
-                            }else {
+                            }else{
                                 i = new Intent(SplashScreen.this,MainActivity.class);
                             }
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

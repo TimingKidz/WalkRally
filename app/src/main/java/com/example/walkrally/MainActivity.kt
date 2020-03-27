@@ -63,11 +63,14 @@ class MainActivity : AppCompatActivity() {
     // Main
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         leave.setVisibility(View.INVISIBLE)
         Team().readData(object : Team.MyCallback {
             override fun onCallback(value: Team) {
                 if(value.isFin){
+//                    val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+//                    bottomNavigationView.menu.findItem(R.id.item_qr).isEnabled = false
                     leave.setVisibility(View.VISIBLE)
                     leave.setOnClickListener{view ->
                         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("event").setValue("")

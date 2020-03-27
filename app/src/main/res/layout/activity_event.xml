@@ -17,7 +17,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/rView"
         android:layout_width="307dp"
         android:layout_height="400dp"
         android:layout_alignParentEnd="true"

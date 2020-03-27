@@ -33,7 +33,6 @@ class ProfileFlagment : Fragment() {
     lateinit var age:TextView
     lateinit var phone:TextView
     lateinit var btnLogout: Button
-    lateinit var btnTest:FloatingActionButton
     lateinit var ref: DatabaseReference
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -52,10 +51,6 @@ class ProfileFlagment : Fragment() {
         textViewName = view.findViewById(R.id.nameView)
         age = view.findViewById(R.id.ageView)
         phone = view.findViewById(R.id.phoneView)
-        btnTest = view.findViewById(R.id.floatingActionButton3)
-        btnTest.setOnClickListener { view ->
-            startActivity(Intent(activity,testimage::class.java))
-        }
         btnLogout.setOnClickListener{view ->
             logOut()
         }
