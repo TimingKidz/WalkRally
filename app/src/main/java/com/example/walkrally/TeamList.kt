@@ -9,22 +9,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlin.Boolean as Boolean1
 
 
-class TeamList : AppCompatActivity() {
+class TeamList : AppCompatActivity() , TeamCreateDialog.TeamCreateDialoglistener{
 
     lateinit var ref: DatabaseReference
     lateinit var createBut:Button
-    lateinit var joinBut:Button
-    lateinit var logoutBut:Button
     lateinit var listView: ListView
-    lateinit var listViewC: ListView
     var t_list = ArrayList<Team>()
     lateinit var team_list:ArrayList<String>
     lateinit var count_list:ArrayList<String>
     val team_Path = "Team"
     val event_path = "Events"
-
+    var joined = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +40,37 @@ class TeamList : AppCompatActivity() {
 
         createBut = findViewById(R.id.btnCreate)
         createBut.setOnClickListener { view ->
-            val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
-            User().readData(object : User.MyCallback {
-                override fun onCallback(value: User) {
-                    creat_Team(key.toString(),0,"test","1","1",value.event)
-                }
-            })
-
-
+            OpenDialog()
         }
 
 
     }
+
+    fun OpenDialog(){
+        var hh = TeamCreateDialog()
+        hh.show(supportFragmentManager, "")
+    }
+    fun JoinDialog(TeamId:String){
+        var st = TeamJoinDialog()
+        st.setTeamId(TeamId)
+        st.show(supportFragmentManager,"")
+    }
+
+
+    override fun applyTexts(Teamname: String,isOk: Boolean1) {
+
+        if(isOk) { //is ok go create team
+            val key = FirebaseDatabase.getInstance().getReference().child(team_Path).push().key
+            User().readData(object : User.MyCallback {
+                override fun onCallback(value: User) {
+                    creat_Team(key.toString(), 0, Teamname, "1", "1", value.event)
+                }
+            })
+
+        }
+    }
+
+
     fun creat_Team( T_id:String,score:Int, name:String, mcount:String, checkpoint:String, event:String){
         val team = Team(T_id, score, name, mcount, checkpoint, event)
         FirebaseDatabase.getInstance().getReference().child(team_Path).child(T_id).setValue(team) // create Team "id" in Team
@@ -93,8 +110,8 @@ class TeamList : AppCompatActivity() {
         })
     }
 
-    fun join_Team(T_id:String){
 
+    fun join_Team(T_id:String){
 
         val check = FirebaseDatabase.getInstance().getReference("TeamMembers").child(T_id) //read TeamMembers
         check.addListenerForSingleValueEvent(object :ValueEventListener{
@@ -164,13 +181,6 @@ class TeamList : AppCompatActivity() {
     }
 
 
-
-    fun logOut() {
-        Log.d("testbut","Good")
-        FirebaseAuth.getInstance().signOut()
-        startActivity(Intent(this,LoginMain::class.java))
-    }
-
     fun readdata(){
         val postListener = object : ChildEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -198,7 +208,9 @@ class TeamList : AppCompatActivity() {
                 listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
 
-                    join_Team(team_list[position])
+                    if(joined) {
+                        join_Team(team_list[position])
+                    }
                 }
 
             }
@@ -214,8 +226,8 @@ class TeamList : AppCompatActivity() {
                 team_list.add(id)
                 listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
+                    JoinDialog(team_list[position])
 
-                    join_Team(team_list[position])
                 }
 
             }
@@ -232,7 +244,7 @@ class TeamList : AppCompatActivity() {
                 listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
                 listView.setOnItemClickListener { parent, view, position, id ->
 
-                    join_Team(team_list[position])
+
                 }
 
             }

@@ -1,6 +1,5 @@
 package com.example.walkrally;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,16 +8,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class TeamCreateDialog extends AppCompatDialogFragment {
+public class TeamJoinDialog extends AppCompatDialogFragment {
     private EditText editTextName;
-//    private ExampleDialogListener listener;
-    private TeamCreateDialoglistener listener;
-
+    //    private ExampleDialogListener listener;
+    private TeamJoinDialoglistener listener;
+    private String TeamId;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class TeamCreateDialog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.layout_team_create, null);
 
         builder.setView(view)
-                .setTitle("Enter Team Name")
+                .setTitle("Are you sure ?")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -39,8 +39,8 @@ public class TeamCreateDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String TeamName = editTextName.getText().toString();
-                        Boolean isOk = true;
-                        listener.applyTexts(TeamName,isOk);
+                        Boolean isJoin = true;
+                        listener.senddata(isJoin);
                     }
                 });
 
@@ -50,20 +50,23 @@ public class TeamCreateDialog extends AppCompatDialogFragment {
     }
 
 
+    public void setTeamId(String teamId) {
+        TeamId = teamId;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            listener = (TeamCreateDialoglistener) context;
+            listener = (TeamJoinDialoglistener) context;
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() +
                     "must implement ExampleDialogListener");
         }
     }
 
-    public interface TeamCreateDialoglistener {
+    public interface TeamJoinDialoglistener {
         void applyTexts(String name,Boolean isOk);
+        void senddata(Boolean isJoin);
     }
-
 }

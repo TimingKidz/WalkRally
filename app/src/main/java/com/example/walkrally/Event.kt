@@ -33,13 +33,10 @@ class Event : AppCompatActivity() {
         readdata()
     }
 
-    fun OpenDialog(){
-        var hh = TeamCreateDialog()
-        hh.show(supportFragmentManager, "")
-    }
+
 
     fun join_Event(E_id:String){
-        OpenDialog()
+
     ref = FirebaseDatabase.getInstance().getReference(event_path)
     val check = ref.child(E_id).child("team")
     check.addListenerForSingleValueEvent(object :ValueEventListener{
