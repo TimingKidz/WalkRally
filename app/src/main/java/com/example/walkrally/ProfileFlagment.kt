@@ -1,5 +1,6 @@
 package com.example.walkrally
 
+import a.a.a
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import org.w3c.dom.Text
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -68,35 +70,21 @@ class ProfileFlagment : Fragment() {
         startActivity(Intent(activity,LoginMain::class.java))
     }
 
-    val postListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            // Get Post object and use the values to update the UI
-            for(u in dataSnapshot.children) {
-                if(u!!.exists()){
-                    val user = u.getValue(User::class.java)
-                    if(user != null){
-                        textViewEmail.setText(user.email)
-                        textViewName.setText(user.name)
-                        age.setText(user.age)
-                        phone.setText(user.telephone)
-                    }
-                }
 
-            }
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            // Getting Post failed, log a message
-            Log.w("failed", "loadPost:onCancelled", databaseError.toException())
-            // ...
-        }
-    }
     fun readdata(){
-        ref = FirebaseDatabase.getInstance().getReference("Users")
-        val query = FirebaseDatabase.getInstance().getReference("Users")
-            .orderByChild("id")
-            .equalTo(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key)
-        query.addValueEventListener(postListener)
+        var a ="kk"
+        User().readTeamcp(object : User.MyCallbackk {
+            override fun onCallbackk(value: Clues) {
+            }
+        })
+
+
+//        ref = FirebaseDatabase.getInstance().getReference("Users")
+//        var a = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid)
+//        val query = FirebaseDatabase.getInstance().getReference("Users")
+//            .orderByChild("id")
+//            .equalTo(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key)
+//        a.addValueEventListener(postListener)
     }
 
 

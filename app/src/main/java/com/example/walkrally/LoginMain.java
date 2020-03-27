@@ -1,10 +1,12 @@
 package com.example.walkrally;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginMain extends AppCompatActivity {
 
     EditText emailId, password;
-    Button btnSignIn,btnSignUp;
+    Button btnSignIn;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -32,7 +34,6 @@ public class LoginMain extends AppCompatActivity {
         emailId = findViewById(R.id.emailText);
         password = findViewById(R.id.passText);
         btnSignIn = findViewById(R.id.loginButton);
-        btnSignUp = findViewById(R.id.gosignUp);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -54,18 +55,19 @@ public class LoginMain extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
-                if(email.isEmpty()){
+                if(email.isEmpty() && pwd.isEmpty()) {
+                    emailId.setError("Fields Are Empty!");
+                    emailId.requestFocus();
+                    password.setError("");
+                }
+                else  if(email.isEmpty()){
                     emailId.setError("Please enter email id");
                     emailId.requestFocus();
                 }
-                else  if(pwd.isEmpty()){
+                else  if(pwd.isEmpty()) {
                     password.setError("Please enter your password");
                     password.requestFocus();
-                }
-                else  if(email.isEmpty() && pwd.isEmpty()){
-                    Toast.makeText(LoginMain.this,"Fields Are Empty!",Toast.LENGTH_SHORT).show();
-                }
-                else  if(!(email.isEmpty() && pwd.isEmpty())){
+                }else  if(!(email.isEmpty() && pwd.isEmpty())){
                     mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(LoginMain.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -73,8 +75,20 @@ public class LoginMain extends AppCompatActivity {
                                 Toast.makeText(LoginMain.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                Intent intToHome = new Intent(LoginMain.this,MainActivity.class);
-                                startActivity(intToHome);
+
+                                new User().readData(new User.MyCallback() {
+                                    @Override
+                                    public void onCallback(User value) {
+                                        Intent intToHome;
+                                        if(value.event.equals("")){
+                                            intToHome = new Intent(LoginMain.this,Event.class);
+                                        }else {
+                                           intToHome = new Intent(LoginMain.this,MainActivity.class);
+                                        }
+                                        startActivity(intToHome);
+                                    }
+                                });
+
                             }
                         }
                     });
@@ -87,19 +101,17 @@ public class LoginMain extends AppCompatActivity {
             }
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intSignUp = new Intent(LoginMain.this, Register.class);
-                startActivity(intSignUp);
-            }
-        });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    public void onSignUpClick(View v) {
+        Intent intSignUp = new Intent(LoginMain.this, Register.class);
+        startActivity(intSignUp);
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+//    }
 }
 

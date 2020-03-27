@@ -89,13 +89,14 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Register success", Toast.LENGTH_SHORT).show();
+
                                 } else {
                                     //display a failure message
 
                                 }
                             }
                         });
-                        startActivity(new Intent(Register.this,CreateProfile.class));
+
                     }
                 }
             });
@@ -104,5 +105,10 @@ public class Register extends AppCompatActivity {
             Toast.makeText(Register.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    public void onSignInClick(View v){
+        Intent intSignIn = new Intent(Register.this, LoginMain.class);
+        startActivity(intSignIn);
     }
 }
