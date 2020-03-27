@@ -71,18 +71,19 @@ public class LoginMain extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
-                if(email.isEmpty()){
+                if(email.isEmpty() && pwd.isEmpty()) {
+                    emailId.setError("Fields Are Empty!");
+                    emailId.requestFocus();
+                    password.setError("");
+                }
+                else  if(email.isEmpty()){
                     emailId.setError("Please enter email id");
                     emailId.requestFocus();
                 }
-                else  if(pwd.isEmpty()){
+                else  if(pwd.isEmpty()) {
                     password.setError("Please enter your password");
                     password.requestFocus();
-                }
-                else  if(email.isEmpty() && pwd.isEmpty()){
-                    Toast.makeText(LoginMain.this,"Fields Are Empty!",Toast.LENGTH_SHORT).show();
-                }
-                else  if(!(email.isEmpty() && pwd.isEmpty())){
+                }else  if(!(email.isEmpty() && pwd.isEmpty())){
                     mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(LoginMain.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
