@@ -31,10 +31,14 @@ public class SplashScreen extends AppCompatActivity {
                         @Override
                         public void onCallback(User value) {
                             Intent i;
-                            if(value.event.equals("")){
+                            if(value.name.equals("")){
+                                i = new Intent(SplashScreen.this,CreateProfile.class);
+
+                            }else if(value.event.equals("")){
                                 i = new Intent(SplashScreen.this,Event.class);
                             }else if(value.team.equals("")){
                                 i = new Intent(SplashScreen.this,TeamList.class);
+
                             }else {
                                 i = new Intent(SplashScreen.this,MainActivity.class);
                             }
