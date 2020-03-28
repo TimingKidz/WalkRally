@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,26 +34,59 @@ public class SplashScreen extends AppCompatActivity {
                             Intent i;
                             if(value.name.equals("")){
                                 i = new Intent(SplashScreen.this,CreateProfile.class);
-
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
                             }else if(value.event.equals("")){
                                 i = new Intent(SplashScreen.this,Event.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
                             }else if(value.team.equals("")){
                                 i = new Intent(SplashScreen.this,TeamList.class);
-
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
                             }else {
                                 i = new Intent(SplashScreen.this,MainActivity.class);
+                                new User().readData(new User.MyCallback() {
+                                    @Override
+                                    public void onCallback(User value) {
+                                        currentdata.u = value;
+                                        new Team().readData(new Team.MyCallback() {
+                                            @Override
+                                            public void onCallback(Team value) {
+                                                currentdata.t = value;
+                                                new User().readTeamcp(new User.MyCallbackk() {
+                                                    @Override
+                                                    public void onCallbackk(Clues value) {
+                                                        currentdata.c = value;
+                                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(i);
+                                                    }
+                                                });
+
+                                            }
+                                        });
+
+                                    }
+                                });
                             }
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
+
                         }
                     });
 
                 }else{
-                    Intent i = new Intent(SplashScreen.this,LoginMain.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
+
+
+                            Intent i = new Intent(SplashScreen.this,LoginMain.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+
+
+
 //                  Toast.makeText(LoginMain.this,"Please Login",Toast.LENGTH_SHORT).show();
                 }
             }

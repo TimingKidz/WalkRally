@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import java.security.Timestamp;
 
 public class LoginMain extends AppCompatActivity {
 
@@ -89,22 +93,7 @@ public class LoginMain extends AppCompatActivity {
                             if(!task.isSuccessful()){
                                 Toast.makeText(LoginMain.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
                             }
-                            else{
 
-                                new User().readData(new User.MyCallback() {
-                                    @Override
-                                    public void onCallback(User value) {
-                                        Intent intToHome;
-                                        if(value.event.equals("")){
-                                            intToHome = new Intent(LoginMain.this,Event.class);
-                                        }else {
-                                           intToHome = new Intent(LoginMain.this,MainActivity.class);
-                                        }
-                                        startActivity(intToHome);
-                                    }
-                                });
-
-                            }
                         }
                     });
                 }
@@ -122,6 +111,8 @@ public class LoginMain extends AppCompatActivity {
         Intent intSignUp = new Intent(LoginMain.this, Register.class);
         startActivity(intSignUp);
     }
+
+
 
 //    @Override
 //    protected void onStart() {

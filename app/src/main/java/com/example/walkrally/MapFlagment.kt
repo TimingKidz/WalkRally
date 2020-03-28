@@ -6,20 +6,21 @@ import android.app.Activity
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_testimage.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.Circle
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_map_flagment.*
-import kotlinx.android.synthetic.main.layout_hint.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -32,6 +33,7 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             MainActivity.REQUEST_CODE_ACCESS_LOCATION
         )
@@ -39,36 +41,38 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
         map_view.onCreate(savedInstanceState)
         map_view.onResume()
         hint.setVisibility(View.INVISIBLE)
-
         map_view.getMapAsync(this)
-
-        Team().readData(object : Team.MyCallback {
-            override fun onCallback(value: Team) {
-                if(!value.isFin){
-                    User().readTeamcp(object : User.MyCallbackk {
-                        override fun onCallbackk(value: Clues) {
-                            if(value.Radius != 0.0){
-                                drawCircle(value.Latitude,value.Longtitude,value.Radius)
-                                hint.setVisibility(View.VISIBLE)
-                            }
-
-                        }
-                    })
-
-                }else{
-
-                }
-
-            }
-        })
-
-
+//        Team().readData(object : Team.MyCallback {
+//            override fun onCallback(value: Team) {
+//                if(!value.isFin){
+//                    User().readTeamcp(object : User.MyCallbackk {
+//                        override fun onCallbackk(value: Clues) {
+//                            if(value.Radius != 0.0){
+//                                drawCircle(value.Latitude,value.Longtitude,value.Radius)
+//                                hint.setVisibility(View.VISIBLE)
+//                            }
+//
+//                        }
+//                    })
+//
+//                }else{
+//
+//                }
+//
+//            }
+//        })
 
     }
 
     override fun onMapReady(map: GoogleMap?) {
         map?.let {
             googleMap = it
+            if(!currentdata.t.isFin){
+                if(currentdata.c.Radius != 0.0){
+                    drawCircle(currentdata.c.Latitude,currentdata.c.Longtitude,currentdata.c.Radius)
+                    hint.setVisibility(View.VISIBLE)
+                }
+            }
         }
     }
 
@@ -81,14 +85,17 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
     }
 
     fun OpenDialog(){
-        var hh = hintDialog()
+
+        var hh = hintDialog(currentdata.c.hint)
         hh.show(childFragmentManager, "")
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map_flagment, container, false)
     }
@@ -140,7 +147,7 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
             .center(LatLng(latitude, longitude))
             .radius(radius)
             .strokeWidth(1.0f)
-            .strokeColor(ContextCompat.getColor(context!!, R.color.bottom_nav_item_color))
+            .strokeColor(Color.parseColor("#2271cce7"))
             .fillColor(Color.parseColor("#2271cce7"))
         circle?.remove() // Remove old circle.
         circle = googleMap?.addCircle(circleOptions) // Draw new circle.

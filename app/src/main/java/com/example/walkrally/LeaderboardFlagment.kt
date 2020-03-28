@@ -1,17 +1,18 @@
 package com.example.walkrally
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,7 +22,7 @@ class LeaderboardFlagment : Fragment() {
     lateinit var Tscore: ListView
     lateinit var Yscore: TextView
     var t_list = ArrayList<Team>()
-    lateinit var listView: ListView
+    lateinit var recyclerView: RecyclerView
     var team_path = "Team"
     lateinit var textview: TextView
 
@@ -47,8 +48,8 @@ class LeaderboardFlagment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_leaderboard_flagment, container, false)
 //        Tscore = view.findViewById(R.id.TScore)
 //        Yscore = view.findViewById(R.id.YScore)
-        listView = view.findViewById(R.id.listView)
-        textview = view.findViewById(R.id.textview)
+        recyclerView = view.findViewById(R.id.rView)
+        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         readData()
 
         return view
@@ -71,14 +72,14 @@ class LeaderboardFlagment : Fragment() {
                         t_list.add(team)
 
                     }
-                    Collections.reverse(t_list)
-                    listView.adapter = LeaderAdapter(activity!!.applicationContext,R.layout.custom_learderboard_list,t_list)
+//                    Collections.reverse(t_list)
+                    recyclerView.adapter = LeaderAdapter(t_list)
 
                 }
             }
 
         }
-        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("score")
+        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("Ttime")
         team_name_list.addListenerForSingleValueEvent(postListener)
 
 

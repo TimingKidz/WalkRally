@@ -1,30 +1,36 @@
 package com.example.walkrally
 
-import android.content.Context
-import android.text.Layout
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
-class LeaderAdapter(val mCtx: Context, val resources: Int, val items: List<Team>)
-    : ArrayAdapter<Team>(mCtx, resources, items){
+class LeaderAdapter(val items: ArrayList<Team>) : RecyclerView.Adapter<LeaderAdapter.ViewHolder>(){
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val layoutInflater : LayoutInflater = LayoutInflater.from(mCtx)
-        val view: View = layoutInflater.inflate(resources,null)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaderAdapter.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.custom_learderboard_list, parent, false)
+        return ViewHolder(v)
+    }
 
-        val textViewName = view.findViewById<TextView>(R.id.TeamName)
-        val textViewN = view.findViewById<TextView>(R.id.TeamN)
+    override fun onBindViewHolder(holder: LeaderAdapter.ViewHolder, position: Int) {
+        holder.bindItems(items[position])
+    }
 
-        var mItem:Team = items[position]
-        Log.d("OB", mItem.name)
-        Log.d("OB", mItem.mcount)
-        textViewName.text = mItem.name
-        textViewN.text = mItem.score.toString()
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        return view
+        fun bindItems(team: Team) {
+            val name = itemView.findViewById(R.id.TeamName) as TextView
+            val points  = itemView.findViewById(R.id.TeamN) as TextView
+            name.text = team.name
+            var S = (team.Ttime.div(1000))%60
+            var M = ((team.Ttime.div(1000*60))%60).toInt()
+
+            points.text = "$M:$S"
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
     }
 }

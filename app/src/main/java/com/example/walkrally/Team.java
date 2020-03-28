@@ -16,6 +16,9 @@ public class Team {
     public String event;
     public boolean isFin;
     public String mcount;
+    public long time0;
+    public long time1;
+    public long Ttime;
 
     public Team(){
 
@@ -28,6 +31,9 @@ public class Team {
         this.event = event;
         this.checkp = checkpoint;
         this.isFin = false;
+        this.time0 = 0;
+        this.time1=0;
+        this.Ttime=0;
     }
 
     public interface MyCallback {

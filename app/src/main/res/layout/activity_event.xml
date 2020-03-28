@@ -5,19 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Event">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="272dp"
-        android:layout_marginBottom="663dp"
+        android:layout_marginEnd="303dp"
+        android:layout_marginBottom="661dp"
         android:text="Event"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/rView"
         android:layout_width="307dp"
         android:layout_height="400dp"
         android:layout_alignParentEnd="true"
