@@ -72,14 +72,14 @@ class LeaderboardFlagment : Fragment() {
                         t_list.add(team)
 
                     }
-                    Collections.reverse(t_list)
+//                    Collections.reverse(t_list)
                     recyclerView.adapter = LeaderAdapter(t_list)
 
                 }
             }
 
         }
-        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("score")
+        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("Ttime")
         team_name_list.addListenerForSingleValueEvent(postListener)
 
 

@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class hintDialog extends AppCompatDialogFragment {
     private TextView editTextName;
+    private String text;
 //    private ExampleDialogListener listener;
-
+    public hintDialog(String a){
+        this.text = a;
+    }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -24,13 +27,9 @@ public class hintDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_hint, null);
-        new User().readTeamcp(new User.MyCallbackk() {
-            @Override
-            public void onCallbackk(Clues value) {
-                TextView inputText = view.findViewById(R.id.hint_name);
-                inputText.setText(value.hint);
-            }
-        });
+        TextView inputText = view.findViewById(R.id.hint_name);
+        inputText.setText(this.text);
+
 
         builder.setView(view)
                 .setTitle("Hint")
@@ -42,7 +41,6 @@ public class hintDialog extends AppCompatDialogFragment {
                 });
 
 
-        editTextName = view.findViewById(R.id.hint_name);
 
         return builder.create();
     }

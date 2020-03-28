@@ -24,18 +24,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="272dp"
-        android:layout_marginBottom="663dp"
+        android:layout_marginEnd="303dp"
+        android:layout_marginBottom="661dp"
         android:text="Team"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ListView
         android:id="@+id/rView"
-        android:layout_width="307dp"
-        android:layout_height="400dp"
+        android:layout_width="304dp"
+        android:layout_height="533dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="259dp" />
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="121dp" />
 
 </RelativeLayout>

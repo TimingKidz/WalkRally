@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import java.security.Timestamp;
 
 public class LoginMain extends AppCompatActivity {
 
@@ -122,6 +126,8 @@ public class LoginMain extends AppCompatActivity {
         Intent intSignUp = new Intent(LoginMain.this, Register.class);
         startActivity(intSignUp);
     }
+
+
 
 //    @Override
 //    protected void onStart() {

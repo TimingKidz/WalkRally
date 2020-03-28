@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,9 +40,16 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.item_qr -> {
-                startActivity(Intent(this@MainActivity, AugmentedImageActivity::class.java)) // Switch to TransactionAdd.kt page
+                if(currentdata.t.isFin){
+                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("event").setValue("")
+                    FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue("")
+                    startActivity(Intent(this@MainActivity, SplashScreen::class.java))
+                }else{
+                    startActivity(Intent(this@MainActivity, AugmentedImageActivity::class.java)) // Switch to TransactionAdd.kt page
 //                overridePendingTransition(R.anim.bottom_up, R.anim.nothing) // Setting Transition
-                return@OnNavigationItemSelectedListener false
+                    return@OnNavigationItemSelectedListener false
+                }
+
             }
             R.id.item_teams -> {
                 println("Teams pressed")
@@ -65,29 +72,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        leave.setVisibility(View.INVISIBLE)
-        Team().readData(object : Team.MyCallback {
-            override fun onCallback(value: Team) {
-                if(value.isFin){
-//                    val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-//                    bottomNavigationView.menu.findItem(R.id.item_qr).isEnabled = false
-                    leave.setVisibility(View.VISIBLE)
-                    leave.setOnClickListener{view ->
-                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("event").setValue("")
-                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue("")
-                        startActivity(Intent(this@MainActivity, LoginMain::class.java))
-                    }
-                }else{
 
+
+                if(currentdata.t.isFin){
+                    val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                    bottomNavigationView.menu.findItem(R.id.item_qr).setTitle("Leave")
+                    bottomNavigationView.menu.findItem(R.id.item_qr).setIcon(R.drawable.ic_arrow_forward_black_24dp)
                 }
 
-            }
-        })
+
+
 
         //Bottom Navigation View
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         bottomNavigationView.setSelectedItemId(R.id.item_map)
+        ServerValue.TIMESTAMP
     }
 
 

@@ -52,6 +52,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     // Use the Sceneform UX Package pre-built from Maven.
     implementation "com.google.ar.sceneform.ux:sceneform-ux:1.15.0"
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
@@ -95,3 +97,8 @@ sceneform.asset('sampledata/mac.fbx',
         'default',
         'sampledata/mac.sfa',
         'src/main/res/raw/mac')
+
+sceneform.asset('sampledata/commm.fbx',
+        'default',
+        'sampledata/commm.sfa',
+        'src/main/res/raw/commm')

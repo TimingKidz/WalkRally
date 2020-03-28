@@ -112,21 +112,33 @@ public class AugmentedImageFragment extends ArFragment {
   @Override
   protected Config getSessionConfiguration(Session session) {
 
+//    Config config = super.getSessionConfiguration(session);
+//    new User().readTeamcp(new User.MyCallbackk() {
+//          @Override
+//          public void onCallbackk(Clues value) {
+//              Toast.makeText(getActivity(),
+//                     value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
+//              DEFAULT_IMAGE_NAME = value.img;
+//              config.setFocusMode(Config.FocusMode.AUTO);
+//              if (!setupAugmentedImageDatabase(config, session)) {
+//                  SnackbarHelper.getInstance()
+//                          .showError(getActivity(), "Could not setup augmented image database");
+//              }
+//              session.configure(config);
+//          }
+//      });
     Config config = super.getSessionConfiguration(session);
-    new User().readTeamcp(new User.MyCallbackk() {
-          @Override
-          public void onCallbackk(Clues value) {
-              Toast.makeText(getActivity(),
-                     value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
-              DEFAULT_IMAGE_NAME = value.img;
-              config.setFocusMode(Config.FocusMode.AUTO);
-              if (!setupAugmentedImageDatabase(config, session)) {
-                  SnackbarHelper.getInstance()
-                          .showError(getActivity(), "Could not setup augmented image database");
-              }
-              session.configure(config);
-          }
-      });
+     Clues value = currentdata.c;
+        Toast.makeText(getActivity(),
+                value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
+        DEFAULT_IMAGE_NAME = value.img;
+        config.setFocusMode(Config.FocusMode.AUTO);
+        if (!setupAugmentedImageDatabase(config, session)) {
+          SnackbarHelper.getInstance()
+                  .showError(getActivity(), "Could not setup augmented image database");
+        }
+        session.configure(config);
+
 
     return config;
   }

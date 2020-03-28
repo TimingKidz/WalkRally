@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collection;
@@ -76,92 +77,201 @@ public class AugmentedImageActivity extends AppCompatActivity {
       EditText inputText = findViewById(R.id.text0);
       sendButton.setVisibility(View.INVISIBLE);
       inputText.setVisibility(View.INVISIBLE);
-      new Team().readData(new Team.MyCallback() {
-          @Override
-          public void onCallback(Team value) {
-              if(!value.isFin){
-                  new User().readTeamcp(new User.MyCallbackk() {
+//      new Team().readData(new Team.MyCallback() {
+//          @Override
+//          public void onCallback(Team value) {
+//              if(!value.isFin){
+//                  new User().readTeamcp(new User.MyCallbackk() {
+//                      @Override
+//                      public void onCallbackk(Clues value) {
+//                          Button sendButton = (Button) findViewById(R.id.senbut);
+//                          EditText inputText = findViewById(R.id.text0);
+//                          sendButton.setVisibility(View.VISIBLE);
+//                          inputText.setVisibility(View.VISIBLE);
+//
+//                          sendButton.setOnClickListener(new View.OnClickListener() {
+//                              @Override
+//                              public void onClick(View v) {
+//                                  EditText inputText = findViewById(R.id.text0);
+//                                  String text = inputText.getText().toString();
+//                                  if( text.equals(value.ans)){
+//                                      Toast.makeText(getApplicationContext(),
+//                                              "Correct.", Toast.LENGTH_SHORT).show();
+//                                      FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                              .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                  @Override
+//                                                  public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                      User value = dataSnapshot.getValue(User.class);
+//                                                      FirebaseDatabase.getInstance().getReference("Team").child(value.team)
+//                                                              .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                  @Override
+//                                                                  public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                                      Team value = dataSnapshot.getValue(Team.class);
+//                                                                      FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("time0").setValue(value.time1);
+//                                                                      FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("time1").setValue(ServerValue.TIMESTAMP);
+//                                                                  }
+//                                                                  @Override
+//                                                                  public void onCancelled(DatabaseError databaseError) {}
+//                                                              });
+//                                                      FirebaseDatabase.getInstance().getReference("Team").child(value.team)
+//                                                              .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                  @Override
+//                                                                  public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                                      Team value = dataSnapshot.getValue(Team.class);
+//                                                                      long temp = value.Ttime+(value.time1 - value.time0);
+//                                                                      FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("Ttime").setValue(temp);
+//                                                                  }
+//                                                                  @Override
+//                                                                  public void onCancelled(DatabaseError databaseError) {}
+//                                                              });
+//                                                  }
+//                                                  @Override
+//                                                  public void onCancelled(DatabaseError databaseError) {}
+//                                              });
+//                                      if(value.isEnd){
+//                                          FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                      @Override
+//                                                      public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                          User value = dataSnapshot.getValue(User.class);
+//                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
+//                                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                      @Override
+//                                                                      public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                                          Team value = dataSnapshot.getValue(Team.class);
+//                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("isFin").setValue(true);
+//                                                                      }
+//                                                                      @Override
+//                                                                      public void onCancelled(DatabaseError databaseError) {}
+//                                                                  });
+//                                                      }
+//                                                      @Override
+//                                                      public void onCancelled(DatabaseError databaseError) {}
+//                                                  });
+//                                          Toast.makeText(getApplicationContext(),
+//                                                  "Finished this Activity", Toast.LENGTH_SHORT).show();
+//                                      }else {
+//                                          FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                      @Override
+//                                                      public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                          User value = dataSnapshot.getValue(User.class);
+//                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
+//                                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                      @Override
+//                                                                      public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                                          Team value = dataSnapshot.getValue(Team.class);
+//                                                                          int temp = Integer.parseInt(value.checkp) + 1;
+//                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("checkp").setValue(Integer.toString(temp));
+//                                                                      }
+//                                                                      @Override
+//                                                                      public void onCancelled(DatabaseError databaseError) {}
+//                                                                  });
+//                                                      }
+//                                                      @Override
+//                                                      public void onCancelled(DatabaseError databaseError) {}
+//                                                  });
+//                                      }
+//                                      startActivity(new Intent(AugmentedImageActivity.this, MainActivity.class));
+//                                  }else {
+//
+//                                      Toast.makeText(getApplicationContext(),
+//                                              "Try Again.", Toast.LENGTH_SHORT).show();
+//
+//                                  }
+//
+//                              }
+//                          });
+//
+//                      }
+//                  });
+//
+//              }else {
+//                  Toast.makeText(getApplicationContext(),
+//                          "Finished this Activity", Toast.LENGTH_SHORT).show();
+//                  startActivity(new Intent(AugmentedImageActivity.this, MainActivity.class));
+//              }
+//
+//          }
+//      });
+
+              if(!currentdata.t.isFin){
+                  sendButton.setVisibility(View.VISIBLE);
+                  inputText.setVisibility(View.VISIBLE);
+                  sendButton.setOnClickListener(new View.OnClickListener() {
                       @Override
-                      public void onCallbackk(Clues value) {
-                          Button sendButton = (Button) findViewById(R.id.senbut);
+                      public void onClick(View v) {
                           EditText inputText = findViewById(R.id.text0);
-                          sendButton.setVisibility(View.VISIBLE);
-                          inputText.setVisibility(View.VISIBLE);
+                          String text = inputText.getText().toString();
+                          if( text.equals(currentdata.c.ans)){
+                              Toast.makeText(getApplicationContext(),
+                                      "Correct.", Toast.LENGTH_SHORT).show();
+                              FirebaseDatabase.getInstance().getReference("Team").child(currentdata.u.team).child("time0").setValue(currentdata.t.time1);
+                              FirebaseDatabase.getInstance().getReference("Team").child(currentdata.u.team).child("time1").setValue(ServerValue.TIMESTAMP);
+                              if(!currentdata.t.checkp.equals("1")) {
+                                  FirebaseDatabase.getInstance().getReference("Team").child(currentdata.u.team)
+                                          .addListenerForSingleValueEvent(new ValueEventListener() {
+                                              @Override
+                                              public void onDataChange(DataSnapshot dataSnapshot) {
+                                                  Team value = dataSnapshot.getValue(Team.class);
+                                                  long temp = value.Ttime+(value.time1 - value.time0);
+                                                  FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("Ttime").setValue(temp);
+                                              }
+                                              @Override
+                                              public void onCancelled(DatabaseError databaseError) {}
+                                          });
+                              }
 
-                          sendButton.setOnClickListener(new View.OnClickListener() {
-                              @Override
-                              public void onClick(View v) {
-                                  EditText inputText = findViewById(R.id.text0);
-                                  String text = inputText.getText().toString();
-                                  if( text.equals(value.ans)){
-                                      Toast.makeText(getApplicationContext(),
-                                              "Correct.", Toast.LENGTH_SHORT).show();
-                                      if(value.isEnd){
-                                          FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                      @Override
-                                                      public void onDataChange(DataSnapshot dataSnapshot) {
-                                                          User value = dataSnapshot.getValue(User.class);
-                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
-                                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                      @Override
-                                                                      public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                          Team value = dataSnapshot.getValue(Team.class);
-                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("isFin").setValue(true);
-                                                                      }
-                                                                      @Override
-                                                                      public void onCancelled(DatabaseError databaseError) {}
-                                                                  });
-                                                      }
-                                                      @Override
-                                                      public void onCancelled(DatabaseError databaseError) {}
-                                                  });
-                                          Toast.makeText(getApplicationContext(),
-                                                  "Finished this Activity", Toast.LENGTH_SHORT).show();
-                                      }else {
-                                          FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                      @Override
-                                                      public void onDataChange(DataSnapshot dataSnapshot) {
-                                                          User value = dataSnapshot.getValue(User.class);
-                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.team)
-                                                                  .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                      @Override
-                                                                      public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                          Team value = dataSnapshot.getValue(Team.class);
-                                                                          int temp = Integer.parseInt(value.checkp) + 1;
-                                                                          FirebaseDatabase.getInstance().getReference("Team").child(value.id).child("checkp").setValue(Integer.toString(temp));
-                                                                      }
-                                                                      @Override
-                                                                      public void onCancelled(DatabaseError databaseError) {}
-                                                                  });
-                                                      }
-                                                      @Override
-                                                      public void onCancelled(DatabaseError databaseError) {}
-                                                  });
-                                      }
-                                      startActivity(new Intent(AugmentedImageActivity.this, MainActivity.class));
-                                  }else {
+                              if(currentdata.c.isEnd){
+                                  FirebaseDatabase.getInstance().getReference("Team").child(currentdata.u.team).child("isFin").setValue(true);
 
-                                      Toast.makeText(getApplicationContext(),
-                                              "Try Again.", Toast.LENGTH_SHORT).show();
+                              }else {
+                                  int temp = Integer.parseInt(currentdata.t.checkp) + 1;
+                                  FirebaseDatabase.getInstance().getReference("Team").child(currentdata.u.team).child("checkp").setValue(Integer.toString(temp));
+                              }
+                              Intent i = new Intent(AugmentedImageActivity.this,MainActivity.class);
+                              String t = "Loading Please wait ..... " ;
+                              SnackbarHelper.getInstance().showMessage(AugmentedImageActivity.this, t);
+                              new User().readData(new User.MyCallback() {
+                                  @Override
+                                  public void onCallback(User value) {
+                                      currentdata.u = value;
+                                      new Team().readData(new Team.MyCallback() {
+                                          @Override
+                                          public void onCallback(Team value) {
+                                              currentdata.t = value;
+                                              new User().readTeamcp(new User.MyCallbackk() {
+                                                  @Override
+                                                  public void onCallbackk(Clues value) {
+                                                      currentdata.c = value;
+                                                      i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                      if(currentdata.c.isEnd){
+                                                          Toast.makeText(getApplicationContext(),
+                                                                  "Finished this Activity", Toast.LENGTH_SHORT).show();
+                                                      }
+
+                                                      startActivity(i);
+                                                  }
+                                              });
+
+                                          }
+                                      });
 
                                   }
-
-                              }
-                          });
+                              });
+                          }else {
+                              Toast.makeText(getApplicationContext(), "Try Again.", Toast.LENGTH_SHORT).show();
+                          }
 
                       }
                   });
-
               }else {
-                  Toast.makeText(getApplicationContext(),
-                          "Finished this Activity", Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getApplicationContext(), "Finished this Activity", Toast.LENGTH_SHORT).show();
                   startActivity(new Intent(AugmentedImageActivity.this, MainActivity.class));
               }
 
-          }
-      });
+
 
 
 
@@ -221,7 +331,7 @@ public class AugmentedImageActivity extends AppCompatActivity {
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }else if (augmentedImage.getName().equals("down.jpeg")) {
-                      node = new AugmentedImageNode(this, R.raw.mac);
+                      node = new AugmentedImageNode(this, R.raw.commm);
                       node.setImage(augmentedImage);
                       arFragment.getArSceneView().getScene().addChild(node);
                   }

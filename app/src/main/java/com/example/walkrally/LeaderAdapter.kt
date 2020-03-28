@@ -23,7 +23,10 @@ class LeaderAdapter(val items: ArrayList<Team>) : RecyclerView.Adapter<LeaderAda
             val name = itemView.findViewById(R.id.TeamName) as TextView
             val points  = itemView.findViewById(R.id.TeamN) as TextView
             name.text = team.name
-            points.text = team.score.toString()
+            var S = (team.Ttime.div(1000))%60
+            var M = ((team.Ttime.div(1000*60))%60).toInt()
+
+            points.text = "$M:$S"
         }
     }
 

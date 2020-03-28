@@ -54,6 +54,24 @@ class TeamList : AppCompatActivity() {
 
 
     }
+
+    fun next(){
+        val i = Intent(applicationContext,MainActivity::class.java)
+        User().readData { value ->
+            currentdata.u = value
+            Team().readData { value ->
+                currentdata.t = value
+                User().readTeamcp { value ->
+                    currentdata.c = value
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(i)
+                }
+            }
+        }
+
+    }
+
     fun creat_Team( T_id:String,score:Int, name:String, mcount:String, checkpoint:String, event:String){
         val team = Team(T_id, score, name, mcount, checkpoint, event)
         FirebaseDatabase.getInstance().getReference().child(team_Path).child(T_id).setValue(team) // create Team "id" in Team
@@ -76,11 +94,7 @@ class TeamList : AppCompatActivity() {
 
                     })
 
-
-                    val i = Intent(applicationContext,MainActivity::class.java)
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(i)
+                   next()
 
                 }
             }
@@ -116,10 +130,7 @@ class TeamList : AppCompatActivity() {
                                 .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
                             FirebaseDatabase.getInstance().getReference("Users") // create Team "id" in Users
                                 .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
-                            val i = Intent(applicationContext,MainActivity::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            startActivity(i)
+                            next()
 
                         }
 

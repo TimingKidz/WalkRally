@@ -1,6 +1,5 @@
 package com.example.walkrally
 
-import a.a.a
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +11,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ServerValue
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -54,7 +51,11 @@ class ProfileFlagment : Fragment() {
         btnLogout.setOnClickListener{view ->
             logOut()
         }
-        readdata()
+        textViewEmail.setText(currentdata.u.email)
+        textViewName.setText(currentdata.u.name)
+        age.setText(currentdata.u.age)
+        phone.setText(currentdata.u.telephone)
+
 
         return view
     }
@@ -65,22 +66,6 @@ class ProfileFlagment : Fragment() {
         startActivity(Intent(activity,LoginMain::class.java))
     }
 
-
-    fun readdata(){
-        var a ="kk"
-        User().readTeamcp(object : User.MyCallbackk {
-            override fun onCallbackk(value: Clues) {
-            }
-        })
-
-
-//        ref = FirebaseDatabase.getInstance().getReference("Users")
-//        var a = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid)
-//        val query = FirebaseDatabase.getInstance().getReference("Users")
-//            .orderByChild("id")
-//            .equalTo(ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key)
-//        a.addValueEventListener(postListener)
-    }
 
 
 }
