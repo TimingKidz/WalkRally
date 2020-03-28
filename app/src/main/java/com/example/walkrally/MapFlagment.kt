@@ -69,9 +69,6 @@ class MapFlagment : Fragment(), OnMapReadyCallback {
             googleMap = it
             if(!currentdata.t.isFin){
                 if(currentdata.c.Radius != 0.0){
-                    Log.d("aaaa", currentdata.c.Latitude.toString() +" "+ currentdata.c.Longtitude.toString()+" " + currentdata.c.Radius.toString())
-                    Log.d("aaaa", currentdata.t.id.toString() +" "+ currentdata.t.isFin.toString()+" " + currentdata.t.checkp.toString())
-                    Log.d("aaaa", currentdata.u.id.toString() +" "+ currentdata.u.email.toString()+" " + currentdata.u.event.toString())
                     drawCircle(currentdata.c.Latitude,currentdata.c.Longtitude,currentdata.c.Radius)
                     hint.setVisibility(View.VISIBLE)
                 }

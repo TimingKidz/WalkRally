@@ -93,22 +93,7 @@ public class LoginMain extends AppCompatActivity {
                             if(!task.isSuccessful()){
                                 Toast.makeText(LoginMain.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
                             }
-                            else{
 
-                                new User().readData(new User.MyCallback() {
-                                    @Override
-                                    public void onCallback(User value) {
-                                        Intent intToHome;
-                                        if(value.event.equals("")){
-                                            intToHome = new Intent(LoginMain.this,Event.class);
-                                        }else {
-                                           intToHome = new Intent(LoginMain.this,MainActivity.class);
-                                        }
-                                        startActivity(intToHome);
-                                    }
-                                });
-
-                            }
                         }
                     });
                 }
