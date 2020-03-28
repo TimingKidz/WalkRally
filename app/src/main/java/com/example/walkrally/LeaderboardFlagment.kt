@@ -19,8 +19,7 @@ import kotlin.collections.ArrayList
 
 class LeaderboardFlagment : Fragment() {
     // TODO: Rename and change types of parameters
-    lateinit var Tscore: ListView
-    lateinit var Yscore: TextView
+
     var t_list = ArrayList<Team>()
     lateinit var recyclerView: RecyclerView
     var team_path = "Team"
@@ -32,12 +31,6 @@ class LeaderboardFlagment : Fragment() {
         super.onCreate(savedInstanceState)
 
 
-//        Tscore = view?.findViewById(R.id.TScore)
-//        Yscore = view?.findViewById(R.id.YScore)
-//
-//        readData()
-//
-//
     }
 
     override fun onCreateView(
@@ -46,8 +39,7 @@ class LeaderboardFlagment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_leaderboard_flagment, container, false)
-//        Tscore = view.findViewById(R.id.TScore)
-//        Yscore = view.findViewById(R.id.YScore)
+
         recyclerView = view.findViewById(R.id.rView)
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         readData()
