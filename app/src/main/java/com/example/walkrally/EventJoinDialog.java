@@ -14,17 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class TeamJoinDialog extends AppCompatDialogFragment {
-    private EditText editTextName;
+import com.google.firebase.database.core.view.Event;
+
+import org.w3c.dom.Text;
+
+public class EventJoinDialog extends AppCompatDialogFragment  {
+    private TextView editTextName;
     //    private ExampleDialogListener listener;
-    private TeamJoinDialoglistener listener;
+    private EventJoinDialoglistener listener;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_team_create, null);
+        View view = inflater.inflate(R.layout.layout_event_join, null);
 
         builder.setView(view)
                 .setTitle("Are you sure ?")
@@ -37,7 +41,9 @@ public class TeamJoinDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String TeamName = editTextName.getText().toString();
+
+
+
                         Boolean isJoin = true;
                         listener.senddata(isJoin);
                     }
@@ -54,14 +60,14 @@ public class TeamJoinDialog extends AppCompatDialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            listener = (TeamJoinDialoglistener) context;
+            listener = (EventJoinDialoglistener) context;
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() +
                     "must implement ExampleDialogListener");
         }
     }
 
-    public interface TeamJoinDialoglistener {
+    public interface EventJoinDialoglistener {
         void senddata(Boolean isJoin);
     }
 }
