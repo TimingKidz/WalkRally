@@ -16,7 +16,7 @@ class Event : AppCompatActivity() ,EventJoinDialog.EventJoinDialoglistener{
     lateinit var event_list: ArrayList<EventClass>
     lateinit var ES_list:ArrayList<String>
     val event_path = "Events"
-    var position_t = 0
+    var position_t = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)

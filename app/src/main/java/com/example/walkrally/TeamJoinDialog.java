@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class TeamJoinDialog extends AppCompatDialogFragment {
-    private EditText editTextName;
+    private TextView editTextName;
     //    private ExampleDialogListener listener;
     private TeamJoinDialoglistener listener;
     @NonNull
@@ -24,7 +24,7 @@ public class TeamJoinDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_team_create, null);
+        View view = inflater.inflate(R.layout.layout_team_join, null);
 
         builder.setView(view)
                 .setTitle("Are you sure ?")
@@ -37,7 +37,7 @@ public class TeamJoinDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String TeamName = editTextName.getText().toString();
+
                         Boolean isJoin = true;
                         listener.senddata(isJoin);
                     }
