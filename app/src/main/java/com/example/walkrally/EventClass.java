@@ -11,10 +11,12 @@ import com.google.firebase.database.ValueEventListener;
 public class EventClass {
     public String id_event;
     public int mcount;
+    public String name;
 
-    public EventClass(String id_event, int mcount) {
+    public EventClass(String id_event, int mcount,String name) {
         this.id_event = id_event;
         this.mcount = mcount;
+        this.name = name;
     }
 
 //    public interface MyCallback {

@@ -38,7 +38,9 @@ public class TeamJoinDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+
                         Boolean isJoin = true;
+
                         listener.senddata(isJoin);
                     }
                 });

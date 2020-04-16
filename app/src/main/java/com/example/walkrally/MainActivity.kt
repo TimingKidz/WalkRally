@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     // Nav Bar Item Action (Use Fragment and Activity)
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         when(item.itemId){

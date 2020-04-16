@@ -38,6 +38,13 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
         team_list = arrayListOf()
         count_list = arrayListOf()
         readdata()
+        listView.setOnItemClickListener { parent, view, position, id ->
+            positionT = position
+            Log.d("in",positionT.toString())
+
+            Joindialog()
+
+        }
 
 
 
@@ -145,27 +152,29 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
                 // Get Post object and use the values to update the UI
                 if(dataSnapshot!!.exists()){
                     Log.d("child",dataSnapshot.childrenCount.toString())
-                    if(dataSnapshot.childrenCount < Allmember){
+
                         var check_id_exists = false
                         for(data in dataSnapshot.children){
                             if(data.value.toString().equals(FirebaseAuth.getInstance().currentUser!!.uid)){
                                 Toast.makeText(applicationContext,"You are already in team.",Toast.LENGTH_SHORT).show()
                                 check_id_exists = true
-                                break
+                                next()
                             }
                         }
                         if(!check_id_exists){
-                            val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
-                                .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
-                            FirebaseDatabase.getInstance().getReference("Users") // create Team "id" in Users
-                                .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
-                            next()
+                            if(dataSnapshot.childrenCount < Allmember){
+                                val query = FirebaseDatabase.getInstance().getReference("TeamMembers")
+                                        .child(T_id).child((dataSnapshot.childrenCount + 1).toString()).setValue(FirebaseAuth.getInstance().currentUser!!.uid)
+                                FirebaseDatabase.getInstance().getReference("Users") // create Team "id" in Users
+                                        .child(FirebaseAuth.getInstance().currentUser!!.uid).child("team").setValue(T_id)
+                                next()
+                            }else {
+                                Toast.makeText(applicationContext,"Team is Full",Toast.LENGTH_SHORT).show()
+                            }
+
 
                         }
 
-                    }else {
-                        Toast.makeText(applicationContext,"Team is Full",Toast.LENGTH_SHORT).show()
-                    }
                 }
             }
 
@@ -250,12 +259,7 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
                     t_list.add(t)
                     team_list.add(id)
                     listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
-                    listView.setOnItemClickListener { parent, view, position, id ->
-                        positionT = position
-                        Log.d("in",positionT.toString())
-                        Joindialog()
 
-                    }
                 }
 
 
@@ -375,15 +379,18 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val isFin = p0.child("isFin").value as Boolean
+                if(!isFin) {
 
-                val id = p0.child("id").value.toString()
-                val name = p0.child("name").value.toString()
-                val c = p0.child("mcount").value.toString()
-                val t = Team(id, 0, name, c, "", "")
-                Log.d("OB",c)
-                t_list.add(t)
-                team_list.add(id)
+                    val id = p0.child("id").value.toString()
+                    val name = p0.child("name").value.toString()
+                    val c = p0.child("mcount").value.toString()
+                    val t = Team(id, 0, name, c, "", "")
+                    Log.d("OB", c)
+                    team_list.add(id)
+                }
                 myCallback.onCallback(team_list)
+
 
             }
 

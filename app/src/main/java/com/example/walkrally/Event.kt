@@ -105,12 +105,16 @@ class Event : AppCompatActivity() ,EventJoinDialog.EventJoinDialoglistener{
 
                 val id_event = p0.key.toString()
                 var mcount:Int
+                var Name:String = "No Name"
 
                 mcount = 0
                 if(p0.child("mcount").exists()) {
                     mcount = Integer.parseInt(p0.child("mcount").value.toString())
                 }
-                val eventclass = EventClass(id_event,mcount)
+                if(p0.child("name").exists()) {
+                    Name = p0.child("name").value.toString()
+                }
+                val eventclass = EventClass(id_event,mcount,Name)
                 Log.d("id_event",id_event)
                 Log.d("Mcount",mcount.toString())
                 event_list.add(eventclass)
@@ -156,12 +160,16 @@ class Event : AppCompatActivity() ,EventJoinDialog.EventJoinDialoglistener{
 
                 val id_event = p0.key.toString()
                 var mcount:Int
+                var Name:String = "No Name"
 
                 mcount = 0
                 if(p0.child("mcount").exists()) {
                     mcount = Integer.parseInt(p0.child("mcount").value.toString())
                 }
-                val eventclass = EventClass(id_event,mcount)
+                if(p0.child("name").exists()) {
+                    Name = p0.child("name").value.toString()
+                }
+                val eventclass = EventClass(id_event,mcount,Name)
                 Log.d("id_event",id_event)
                 Log.d("Mcount",mcount.toString())
                 event_list.add(eventclass)

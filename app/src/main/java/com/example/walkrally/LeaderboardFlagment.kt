@@ -65,13 +65,15 @@ class LeaderboardFlagment : Fragment() {
 
                     }
 //                    Collections.reverse(t_list)
-                    recyclerView.adapter = LeaderAdapter(t_list)
+                    val s = t_list.sortedWith(compareBy(Team::Ttime))
+                    recyclerView.adapter = LeaderAdapter(ArrayList(s))
 
                 }
             }
 
         }
-        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("Ttime")
+        val team_name_list = FirebaseDatabase.getInstance().getReference(team_path).orderByChild("event").equalTo(currentdata.t.event.toString())
+        Log.d("ss",currentdata.t.event)
         team_name_list.addListenerForSingleValueEvent(postListener)
 
 

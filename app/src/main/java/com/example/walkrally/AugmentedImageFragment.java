@@ -129,8 +129,8 @@ public class AugmentedImageFragment extends ArFragment {
 //      });
     Config config = super.getSessionConfiguration(session);
      Clues value = currentdata.c;
-        Toast.makeText(getActivity(),
-                value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(),
+//                value.ans+" "+value.img+" "+value.hint, Toast.LENGTH_SHORT).show();
         DEFAULT_IMAGE_NAME = value.img;
         config.setFocusMode(Config.FocusMode.AUTO);
         if (!setupAugmentedImageDatabase(config, session)) {

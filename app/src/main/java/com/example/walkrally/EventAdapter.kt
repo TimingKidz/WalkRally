@@ -21,7 +21,7 @@ class EventAdapter(val mCtx: Context, val resources: Int, val items: List<EventC
 
         var mItem:EventClass = items[position]
 
-        textViewName.text = mItem.id_event
+        textViewName.text = mItem.name
         textViewN.text = mItem.mcount.toString()
 
         return view

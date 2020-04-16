@@ -43,6 +43,7 @@ class ProfileFlagment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_profile_flagment, container, false)
         btnLogout = view.findViewById(R.id.logoutButton)
+        Log.d("aaaa",currentdata.c.Latitude.toString())
 
         textViewEmail = view.findViewById(R.id.emailView)
         textViewName = view.findViewById(R.id.nameView)
