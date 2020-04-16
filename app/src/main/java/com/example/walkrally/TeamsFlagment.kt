@@ -41,11 +41,6 @@ class TeamsFlagment : Fragment() {
     }
 
     fun readData(){
-
-
                         recyclerView.adapter = TeamMemberAdapter(currentdata.t_list)
-
-
-
     }
 }
