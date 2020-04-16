@@ -2,13 +2,13 @@ package com.example.walkrally
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -54,8 +54,45 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.item_teams -> {
                 println("Teams pressed")
-                replaceFragment(TeamsFlagment())
-                SetNavigationVisibiltity(true)
+                currentdata.t_list.clear()
+
+                val postListener = object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+
+                        var idlist = ArrayList<String>()
+                        if(p0!!.exists()){
+                            for( x in 1 until 4){
+                                if(p0.child(x.toString()).value.toString() == null ){
+                                    break
+                                }
+                                idlist.add(p0.child(x.toString()).value.toString())
+
+                            }
+                            for(data in idlist){
+                                FirebaseDatabase.getInstance().getReference("Users").child(data)
+                                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                val value = dataSnapshot.getValue(User::class.java)
+                                                Log.d("socre",value!!.name.toString())
+                                                currentdata.t_list.add(value!!)
+                                                replaceFragment(TeamsFlagment())
+                                                SetNavigationVisibiltity(true)
+
+                                            }
+                                            override fun onCancelled(databaseError: DatabaseError) {}
+                                        })
+                            }
+//                    Collections.reverse(t_list)
+                        }
+                    }
+
+                }
+                val teammember_name_list = FirebaseDatabase.getInstance().getReference("TeamMembers").child(currentdata.u.team)
+                teammember_name_list.addListenerForSingleValueEvent(postListener)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.item_profile -> {
@@ -73,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-
 
                 if(currentdata.t.isFin){
                     val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)

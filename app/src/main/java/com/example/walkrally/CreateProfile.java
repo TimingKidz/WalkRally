@@ -45,7 +45,7 @@ public class CreateProfile extends AppCompatActivity {
                     Log.d("test",age);
                     Log.d("test",phone);
                     writeData(name,age,phone);
-                    Intent i = new Intent(CreateProfile.this, Event.class);
+                    Intent i = new Intent(CreateProfile.this, SplashScreen.class);
                     startActivity(i);
                 }catch (Exception e){
                     e.printStackTrace();

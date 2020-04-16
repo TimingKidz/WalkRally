@@ -1,5 +1,6 @@
 package com.example.walkrally
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,9 @@ class TeamMemberAdapter(val items: ArrayList<User>) : RecyclerView.Adapter<TeamM
 
         fun bindItems(user: User) {
             val name = itemView.findViewById(R.id.MemberName) as TextView
+            Log.d("a00",user.name)
             name.text = user.name
+
         }
     }
 

@@ -2,13 +2,14 @@ package com.example.walkrally
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -35,35 +36,14 @@ class TeamsFlagment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         readData()
 
+
         return view
     }
 
     fun readData(){
 
-        val postListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
 
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0!!.exists()){
-                    Log.d("nofroe",p0.key)
-                    for(data in p0.children){
-                        var users = data.getValue(User::class.java)
-
-                        Log.d("socre",users!!.name.toString())
-                        t_list.add(users)
-
-                    }
-//                    Collections.reverse(t_list)
-                    recyclerView.adapter = TeamMemberAdapter(t_list)
-
-                }
-            }
-
-        }
-        val teammember_name_list = FirebaseDatabase.getInstance().getReference(team_path)
-        teammember_name_list.addListenerForSingleValueEvent(postListener)
+                        recyclerView.adapter = TeamMemberAdapter(currentdata.t_list)
 
 
 
