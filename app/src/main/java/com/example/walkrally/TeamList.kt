@@ -226,25 +226,6 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
 
-//                val id = p0.child("id").value.toString()
-//                val name = p0.child("name").value.toString()
-//                val c = p0.child("mcount").value.toString()
-//                val t = Team(id, 0, name, c, "", "")
-//                Log.d("OB",c)
-//                for (i in 0..t_list.size-1){
-//                    if(t_list[i].id == id){
-//                        t_list[i] = t
-//                        break
-//                    }
-//                }
-//                var t_idx = team_list.indexOf(id)
-//                team_list.set(t_idx,id)
-//                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
-//                listView.setOnItemClickListener { parent, view, position, id ->
-//                    positionT = position
-//                    Joindialog()
-//
-//                }
 
             }
 
@@ -267,17 +248,7 @@ class TeamList : AppCompatActivity() ,TeamCreateDialog.TeamCreateDialoglistener 
 
             override fun onChildRemoved(p0: DataSnapshot) {
 
-//                val id = p0.child("id").value.toString()
-//                for (i in 0..t_list.size){
-//                    if(t_list[i].id == id){
-//                        t_list.removeAt(i)
-//                    }
-//                }
-//                team_list.remove(id)
-//                listView.adapter = TeamAdapter(applicationContext,R.layout.custom_team_list,t_list)
-//                listView.setOnItemClickListener { parent, view, position, id ->
-//                    positionT = position
-//                    Joindialog()
+
 //                }
 
             }

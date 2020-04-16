@@ -44,9 +44,15 @@ public class CreateProfile extends AppCompatActivity {
                     Log.d("test",name);
                     Log.d("test",age);
                     Log.d("test",phone);
-                    writeData(name,age,phone);
-                    Intent i = new Intent(CreateProfile.this, Event.class);
-                    startActivity(i);
+                    if (name.isEmpty()){
+                        nameText.setError("Fields Are Empty!");
+                        nameText.requestFocus();
+                    }
+                    else {
+                        writeData(name, age, phone);
+                        Intent i = new Intent(CreateProfile.this, Event.class);
+                        startActivity(i);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
