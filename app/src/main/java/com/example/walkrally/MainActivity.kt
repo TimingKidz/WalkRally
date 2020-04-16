@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             R.id.item_teams -> {
                 println("Teams pressed")
                 currentdata.t_list.clear()
-
                 val postListener = object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
 
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                         var idlist = ArrayList<String>()
                         if(p0!!.exists()){
                             for( x in 1 until 4){
-                                if(p0.child(x.toString()).value.toString() == null ){
+                                if(p0.child(x.toString()).value == null){
                                     break
                                 }
                                 idlist.add(p0.child(x.toString()).value.toString())
