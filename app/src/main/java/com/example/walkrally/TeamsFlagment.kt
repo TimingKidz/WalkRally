@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_teams_flagment.*
+import java.lang.reflect.Member
 
 
 class TeamsFlagment : Fragment() {
+ //   var t_list = ArrayList<Team>()
+    lateinit var member: Member
+
     lateinit var ref: DatabaseReference
            val Current_user = ref.child(FirebaseAuth.getInstance().currentUser!!.uid).key
     var team_id = FirebaseDatabase.getInstance().getReference().child("Users").child(Current_user!!).child("team")
@@ -25,7 +29,10 @@ class TeamsFlagment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_teams_flagment, container, false)
+        val view = inflater.inflate(R.layout.custom_team_member, container, false)
+        member = view.findViewById(R.id.member)
+   //     readData()
+        return view
     }
 
     fun readdata(){

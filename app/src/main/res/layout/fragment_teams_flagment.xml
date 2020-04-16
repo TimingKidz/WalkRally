@@ -6,12 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".TeamsFlagment">
 
-    <ListView
-        android:id="@+id/teammem"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+    <LinearLayout
+        android:id="@+id/team_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
